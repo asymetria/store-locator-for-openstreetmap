@@ -9,8 +9,11 @@ types a place, picks a radius, and gets the nearest locations as pins on a map
 and as a list beside it. It ships as a shortcode and as a **Bricks Builder
 element**.
 
-**Status: pre-release.** It runs, and there are known gaps — see
-[Known gaps](#known-gaps) before installing it anywhere that matters.
+**Status: 1.0.0, not yet in the WordPress plugin directory.** It has been
+installed on a live site and taken through a full manual pass — keyboard,
+screen reader, page builder, and the WordPress Plugin Check, which reports
+nothing. What is still missing is listed under [Known gaps](#known-gaps),
+honestly and in full.
 
 ---
 
@@ -97,23 +100,29 @@ opposite of what a plugin whose selling point is "no Google" should do.
 
 ## Known gaps
 
-Found by using the plugin on a real site rather than by testing it, and
-recorded in full in the plan:
+Named because they are real, not because they are theoretical. Each one was
+found by using the plugin rather than by reading it.
 
-- ~~**There is no search button, and the address field needs Enter.**~~ Closed
-  in Task 29c: the address field now has a **Search** button beside it, and it
-  runs the same search Enter runs — with the suggestion list open it takes the
-  highlighted suggestion, exactly as Enter does, rather than looking the text
-  up a second time. There is deliberately **no `<form>`**: a form
-  brings implicit submission, which is a page reload for anybody this plugin's
-  JavaScript has not reached yet, and a form inside a page builder's own form
-  is dropped by the parser with its controls adopted by the outer one. The
-  field also carries `enterkeyhint="search"`, which is what labels the action
-  key on a touch keyboard.
-- **The default stylesheet is layout-only**, which on a theme that styles no
-  form controls leaves raw browser widgets. Being addressed — Task 30.
-- **Several manual checks are still open** — clustering at scale, the metabox
-  map in the block editor, accessibility and internationalisation passes.
+- **No translations ship with it.** There is no `languages/` directory and no
+  `.pot` file, so every string renders in English whatever the site's locale
+  is. The code is fully prepared — every user-facing string goes through a
+  translation function, ambiguous ones carry a context, and a test fails the
+  build if a placeholder has no translator comment — but nobody has produced a
+  catalogue yet.
+- **The OpenStreetMap attribution can render very small.** Leaflet sizes its
+  own controls in `rem`, and a theme that sets `html { font-size: 62.5% }` —
+  a common trick — turns that into 7.5px. The popup has a floor for exactly
+  this reason; the attribution does not yet, and ODbL asks for that line to be
+  legible.
+- **A search cannot be undone without reloading.** Once a visitor searches an
+  address, every distance and every sort is measured from it, and clearing the
+  field does not put the locator back to showing everything from nowhere in
+  particular. It needs a reset control.
+- **Clustering has not been tested at scale.** The threshold and the bundle
+  loading are covered by cases; what several hundred pins actually feel like on
+  a phone is not something this test suite can answer.
+- **The location metabox map inside the block editor** is a manual check that
+  is still open.
 
 ## Documentation
 
