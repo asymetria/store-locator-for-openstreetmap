@@ -1,0 +1,732 @@
+/**
+ * Store Locator for OpenStreetMap: the locator's layout layer.
+ *
+ * One of two stylesheets, and the one that is never optional.
+ * assets/css/locator-skin.css is the other, and a setting can switch it off;
+ * this file is enqueued on every page carrying a locator whatever that setting
+ * says.
+ *
+ * Why it is two files and not one switch
+ * --------------------------------------
+ * The halves fail differently, and that is the whole argument. A missing skin
+ * gives a visitor an unstyled form, which is a look. A missing layout gives
+ * them a Leaflet container of zero height, which renders as *nothing at all*
+ * and is the commonest "the map is broken" report in this category of plugin.
+ * One switch over one file would let a developer who wanted to start from
+ * nothing delete the map instead, so the box, the height floor, the results
+ * beside or under it, the popup that has to sit over the map rather than push
+ * it down, the states a visitor has nothing else to read, and the dot marker
+ * this stylesheet draws every pixel of are all here and cannot be turned off.
+ *
+ * Where the line falls
+ * --------------------
+ * A rule is here when removing it would *break* something rather than plain it:
+ * position, overflow, stacking order, a reset on an element this plugin uses
+ * for something no user agent has heard of — a <button> that has to read as a
+ * row of text — a state nothing else on the page shows, and anything a
+ * *setting* depends on, since a control that does nothing on a site that
+ * switched the skin off would be a settings screen telling a lie.
+ *
+ * And a rule is taken whole. Where a load-bearing rule also carries a
+ * decorative value — `.slosm__result-name` is a block *and* it is bold — the
+ * value stays beside the declaration it belongs with rather than being chased
+ * into the other file. Two files styling one selector for one reason is worse
+ * to read than one font-weight on the wrong side of the line.
+ *
+ * What neither file does
+ * ----------------------
+ * - No fonts and no font sizes on the list text: inherited from the theme.
+ * - Nothing at all under a .leaflet- class. Leaflet's own stylesheet is
+ *   enqueued alongside this one and owns those. In particular the `img {
+ *   max-width: 100% }` that most themes set — the classic "tiles are broken in
+ *   Firefox" bug — is already answered by leaflet.css's own
+ *   `.leaflet-container img { max-width: none !important }`, so overriding it
+ *   again here would be a second opinion about a fixed problem.
+ * - No !important anywhere. A theme that wants to override this should be able
+ *   to.
+ *
+ * The colours that are here
+ * -------------------------
+ * The skin names no colour of its own at all — `currentColor` and `inherit`,
+ * never a hex — and tests/test-stylesheet.php holds it to that. This file is
+ * not held to it, and the exceptions are worth listing rather than leaving to
+ * be found: the empty-tile grey, the suggestion popup's own background and
+ * border, the tint on an active row, the hairline between two results, and the
+ * dot marker's ring. Each is argued beside its rule, and each is a case where
+ * the alternative is not "plainer" but unreadable or invisible.
+ *
+ * The tuning surface
+ * ------------------
+ * Every value below is declared as a custom property on `.slosm` and used as
+ * `var( --name, <that same value> )`. The declaration is what a site changes;
+ * the fallback is what keeps the rule working if the declaration is not there,
+ * which after the split is a real state rather than a hypothetical one — a
+ * layout rule reading a property the *skin* declares would change the moment
+ * somebody switched the skin off. A case asserts that no rule here does that,
+ * and that no fallback has drifted from the declaration beside it.
+ *
+ * What is deliberately *not* a custom property is the mechanism: the grid's own
+ * tracks, the popup's z-index and the dot marker's 16 pixels are numbers this
+ * plugin needs to be what they are, not numbers a site tunes. The dot's size in
+ * particular is declared in JavaScript too, because Leaflet needs it to
+ * position the icon.
+ *
+ * The height
+ * ----------
+ * The map's height is an inline style Shortcode::render() writes, because it
+ * is a per-instance setting and css has no way to carry one. The min-height
+ * here is the floor for the case where that inline style is stripped — a
+ * content filter, an html purifier, a page builder re-emitting the markup —
+ * since a Leaflet container of zero height renders as nothing at all and is
+ * the single commonest way a map "does not work".
+ */
+
+/*
+ * The values, in one place, so that restyling this is setting a variable
+ * rather than winning a specificity argument.
+ *
+ * On `.slosm` rather than on `:root`, because a page can carry two locators
+ * and because a variable on the document root is a plugin writing into a
+ * namespace it shares with the theme. Everything the front end builds — the
+ * suggestion popup, a Leaflet popup, a marker — is built inside the container,
+ * so inheritance reaches all of it.
+ *
+ * The skin declares nine more of these on the same selector. They are in that
+ * file rather than this one because they are read only by rules in it, and a
+ * property declared here for a rule that is gone would be a tuning surface
+ * with nothing on the other end of it.
+ */
+/*
+ * WHY SOME SELECTORS IN HERE START WITH `.slosm .slosm__…`
+ * =======================================================
+ * One class is specificity (0,1,0), and that loses to a very great deal. Three
+ * separate defects on one live site came from it, all the same shape and none
+ * of them visible from inside this repository:
+ *
+ * - `.leaflet-popup-content p { margin: 1.3em 0 }` in leaflet.css is (0,1,1),
+ *   so the popup's rhythm rule had never once applied since it was written.
+ * - A theme's `ul` margin put 26.6px top and bottom on an *empty*
+ *   `.slosm__result-categories` — 53 pixels of nothing inside every result
+ *   row, which is most of what made the list look different inside a page
+ *   builder element than in post content, where that theme rule does not
+ *   reach.
+ * - The same theme's `ul` margin on `.slosm__results` itself.
+ *
+ * The rule for when to add the prefix, so that it does not become a habit: a
+ * selector gets `.slosm` in front when its job is to **take back a value
+ * something else set on a generic element** — the `ul`, `ol`, `li` and `p`
+ * this locator is built out of, which every theme styles and none of them
+ * knows about. A rule that merely expresses this plugin's own design does not
+ * get it, and must not: the promise in locator-skin.css's header, that a theme
+ * with more specificity still wins, is about *looks* and it stands. A row with
+ * 53 pixels of empty list inside it is not a look.
+ *
+ * Deliberately not `!important`. It wins the argument by refusing to have it,
+ * and it puts the rule out of reach of the site owner as well as of the theme.
+ *
+ * This is not a fence that keeps everything out, and one measurement says so:
+ * after all of the above, a theme rule still puts 8px under every row but the
+ * last on that same site. It is left alone. Eight pixels of air between two
+ * results is a theme having an opinion about spacing, which is exactly what
+ * the paragraph above says a theme is allowed to have.
+ */
+
+.slosm {
+	/* The floor under the map, and the colour of a map with no tiles on it
+	   yet. Both are argued at their rules below. */
+	--slosm-map-min-height: 240px;
+	--slosm-map-background: #e8e8e8;
+
+	/* The hairline between two results. */
+	--slosm-result-border-width: 1px;
+	--slosm-result-border-color: rgba(0, 0, 0, 0.1);
+
+	/* What keeps the popup readable when the page it landed on has decided
+	   its text is eight pixels tall. Argued at the rule. */
+	--slosm-popup-font-size: max( 0.875rem, 13px );
+	--slosm-popup-line-height: 1.45;
+	--slosm-popup-min-width: 13em;
+	--slosm-popup-gap: 0.5em;
+
+	/* The wash under the row a pointer or the focus is on. Measured rather
+	   than chosen; the rule has the numbers and the caveat. */
+	--slosm-active-tint: rgba(0, 0, 0, 0.15);
+
+	display: block;
+	margin: 0 0 1.5em;
+}
+
+/*
+ * Side by side once there is room, stacked before that.
+ *
+ * Grid on the container itself rather than a wrapper element, because there is
+ * no wrapper: Shortcode::render() emits the filters, the status line, the map,
+ * the results list and a <template> as siblings, and adding a div purely to
+ * hang a layout on is markup the server has to carry on every page. The filters
+ * and the status line each span both columns; the map and the list fall into
+ * the two tracks in the order they are written, so the visual order and the
+ * reading order are the same one.
+ *
+ * The <template> is not a grid item — it is display:none in every user-agent
+ * stylesheet — so it does not claim a cell. Neither do the html comments
+ * Shortcode::render() may emit.
+ *
+ * A media query rather than a container query: container queries landed in
+ * Safari 16 and Firefox 110, later than this plugin's WordPress 6.0 floor. A
+ * locator inside a narrow column on a wide screen is worth getting right
+ * later, not a reason to drop browsers now.
+ */
+@media (min-width: 48em) {
+	.slosm {
+		display: grid;
+		grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+		gap: 1em;
+		align-items: start;
+	}
+
+	.slosm__filters,
+	.slosm__message {
+		grid-column: 1 / -1;
+	}
+
+	/*
+	 * The two arrangements a site can ask for instead, added by Task 21. The
+	 * rule above is the third and is the default, which is why it carries no
+	 * modifier class: Settings ships 'right', because a list to the right of
+	 * the map on a wide screen is what this plugin already did before there
+	 * was a setting, and a default that changed an existing site's layout
+	 * would be a settings screen that moved something nobody touched.
+	 *
+	 * Both rules are inside the media query, so neither reaches a phone: below
+	 * 48em there is no room for a column beside a map, and a site that chose
+	 * "left" on a desktop has not chosen a 180-pixel-wide map on a phone.
+	 * Shortcode::render() has the argument for why this is a class and not
+	 * something in the config.
+	 *
+	 * The map and the list are given explicit tracks rather than being
+	 * reordered with `order`, because `order` moves them in the tab sequence
+	 * too: a list that reads before the map for a screen reader while being
+	 * drawn to the left of it is a worse arrangement than either.
+	 */
+	.slosm--list-left {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+	}
+
+	.slosm--list-left .slosm__map {
+		grid-column: 2;
+		grid-row: 2;
+	}
+
+	.slosm--list-left .slosm__results {
+		grid-column: 1;
+		grid-row: 2;
+	}
+
+	/*
+	 * And "below" is the grid switched off, so the map and the list stack at
+	 * every width — for the locator in a narrow theme column, where the
+	 * viewport is wide and the space this rule needs is not there. Named as a
+	 * modifier rather than as the absence of one, because it is a decision
+	 * somebody made rather than the state before they made it.
+	 */
+	.slosm--list-below {
+		display: block;
+	}
+}
+
+.slosm__map {
+	width: 100%;
+	min-height: var( --slosm-map-min-height, 240px );
+	/* Leaflet draws into this box, so it must not be able to overflow the
+	   theme's column and sit on top of the content beside it. */
+	box-sizing: border-box;
+	background: var( --slosm-map-background, #e8e8e8 );
+}
+
+/*
+ * The grey above is the empty-tile colour, and it is load-bearing rather than
+ * decorative: while the tiles are still arriving, a transparent container
+ * shows whatever is behind it and reads as a rendering fault. It is also what
+ * is left when the tile server cannot be reached at all.
+ */
+
+/*
+ * 480px is Shortcode::DEFAULT_HEIGHT, so on a locator that did not name a
+ * height the list and the map end level with each other. It is a cap and not a
+ * height: a list of three results is three results tall. The two numbers
+ * cannot be tied together in css, because the map's height is an inline style
+ * that varies per instance — the cost of settings living on the element.
+ */
+.slosm .slosm__results {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	max-height: 480px;
+	overflow-y: auto;
+}
+
+/*
+ * The status line, and the two declarations it cannot lose.
+ *
+ * `:empty` is the load-bearing one, and it is about the grid rather than about
+ * looks: Shortcode::render() emits this element on every locator whether or
+ * not there is anything to say, and an empty grid item still holds a row and
+ * the grid's `gap` open. Without this rule every silent locator carries an
+ * extra em of nothing between the search row and the map. Which is also why
+ * that element is rendered with no whitespace inside it.
+ *
+ * The span is in the media query below, where the grid is. Here it is a block
+ * like anything else.
+ *
+ * What it looks like when it does have something to say — its spacing, how
+ * quiet it is — is the skin's.
+ */
+.slosm__message:empty {
+	display: none;
+}
+
+/*
+ * The separator between two results, and the one rule in this half that a
+ * reader may expect to find in the other.
+ *
+ * It is here because of its colour rather than in spite of it. An alpha black
+ * is a colour of this file's own, which is precisely what the skin is not
+ * allowed to carry — and the alternative the controls use, full-strength
+ * `currentColor`, would be a heavy line between every two rows on every site
+ * that already has this one. A hairline that tells two addresses apart is also
+ * not a decoration a list of results reads correctly without.
+ */
+.slosm__result {
+	padding: 0.75em 0;
+	border-bottom: var( --slosm-result-border-width, 1px ) solid var( --slosm-result-border-color, rgba(0, 0, 0, 0.1) );
+}
+
+.slosm__result:last-child {
+	border-bottom: 0;
+}
+
+/*
+ * A locator that could not start collapses its map box to whatever the inline
+ * height gives it, and drops the 240px floor that exists for the opposite
+ * case. The floor is there so a *working* map is never zero pixels tall; a map
+ * that will never draw has nothing to be tall for, and 240 pixels of grey
+ * above the message is a bigger, emptier version of the blank rectangle the
+ * message exists to replace.
+ *
+ * It is not display:none. The box staying in the layout is what makes it
+ * obvious that something was meant to be there — an earlier comment here said
+ * the locator "still occupies its height" while this rule removed the floor,
+ * which was two different intentions written a line apart.
+ */
+.slosm--error .slosm__map {
+	min-height: 0;
+}
+
+/*
+ * The other two state classes, and why neither has a rule.
+ *
+ * assets/js/locator.js puts three classes on the container and only
+ * `.slosm--error` above is answered here. The other two are hooks for a site
+ * rather than styling this file forgot, and the difference is worth having
+ * written down next to the one that *is* styled:
+ *
+ * - `.slosm--empty` — show() adds it when a draw ends with no entries *and the
+ *   locator is in a position to say so*, and removes it on the next draw that
+ *   has some. Not only "a search found nothing": entriesFor() filters by
+ *   category before it filters by the radius and the limit, so a preloaded
+ *   locator whose category matches nothing is empty with nothing ever
+ *   searched. What it is deliberately not set for is a preloaded locator whose
+ *   payload has not arrived yet — there the list is empty because nothing has
+ *   been fetched, and a site hanging its own "nothing here" on this hook would
+ *   say it while the data was still coming. The words are already on the page —
+ *   say() writes them into `.slosm__message`, the status line above the map,
+ *   which is the locator's one live region — so there is nothing left here to
+ *   paint. What a site does *beyond* the sentence is the site's.
+ * - `.slosm--ready` — init() adds it once the map has a view and its layers,
+ *   immediately before the controls are wired, and never takes it off again.
+ *
+ * `.slosm--ready` is the one worth arguing, because the usual reason a
+ * component carries one is to stay hidden until it is laid out. This file does
+ * not do that, and that is a decision and not an oversight: a rule along the
+ * lines of `.slosm:not(.slosm--ready) { visibility: hidden }` also hides every
+ * page where the script never ran at all — no JavaScript, an enqueue a
+ * bundling plugin broke, a theme that threw first — and init() returns through
+ * fail() long before this class, so it would hide the error message with it.
+ * That is the exact case `.slosm--error` and the sentence below the map exist
+ * to keep visible. A site that knows its own pages can write that rule against
+ * this hook; a plugin that cannot see them should not write it for everybody.
+ *
+ * Both are recorded in tests/test-stylesheet.php, which goes red if a class
+ * the markup emits is neither styled here nor listed there with a reason.
+ */
+
+/*
+ * The suggestion popup.
+ *
+ * Absolutely positioned rather than a flex item on a new line, and that is
+ * about layout shift rather than looks: a list that pushed the map down as
+ * somebody typed and pulled it back up as they stopped would move the thing
+ * they are reading, four times a second. It hangs under the whole filter row
+ * instead of under the field alone, because the field's width is the theme's
+ * to decide and `left: 0; right: 0` needs no knowledge of it.
+ *
+ * `position: relative` on the filter row is here rather than in the skin for
+ * exactly that reason: it is what the popup is positioned against, and a skin
+ * a site switched off would otherwise drop the popup somewhere up the page
+ * against whatever ancestor happened to be positioned. The row's own shape —
+ * that it is a flex row at all, its gaps, its margin — is the skin's.
+ *
+ * z-index 1001 is one above the highest number Leaflet's own stylesheet uses:
+ * panes run to 700, .leaflet-control-container and the zoom control sit at 800
+ * and .leaflet-top / .leaflet-bottom at 1000 — read in assets/leaflet/leaflet.css
+ * rather than remembered. A dropdown that opened *behind* the zoom buttons
+ * would be unreadable exactly where it overlaps the map.
+ *
+ * The background and the border are two of this file's five colours. A popup
+ * drawn over a map is the one place on the page where "let the theme show
+ * through" means "unreadable over tiles", so the box is opaque; and being
+ * opaque white it needs an edge of its own to stop at.
+ *
+ * The [hidden] rule is not redundant with the user-agent stylesheet. The
+ * hidden attribute is `display: none` at UA level, which any theme rule with a
+ * class selector in it — `.slosm__suggestions { display: block }`, or a
+ * blanket `ul { display: flex }` — outranks. One rule of our own at the same
+ * specificity as the rule above it keeps a closed popup closed.
+ */
+.slosm__filters {
+	position: relative;
+}
+
+.slosm .slosm__suggestions {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	z-index: 1001;
+	margin: 0.25em 0 0;
+	padding: 0;
+	list-style: none;
+	max-height: 16em;
+	overflow-y: auto;
+	background: #fff;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.slosm__suggestions[hidden] {
+	display: none;
+}
+
+/*
+ * The active option and the active row, which are the same state seen twice.
+ *
+ * A background tint and nothing else: no colour this file invents, so it
+ * cannot fight a dark theme in the one direction that matters — text is the
+ * theme's, and a tint of the theme's own text colour is legible against the
+ * theme's own background whichever way round they are.
+ *
+ * It is in this half because it is the only thing on the page that says where
+ * the arrow keys have got to. A keyboard user with the skin switched off can
+ * still see which suggestion is about to be chosen.
+ *
+ * THE NUMBER, AND WHAT IT CANNOT DO
+ * =================================
+ * Reported as "the active classes do not work". They do — the class arrives on
+ * hover and on focus, and this rule applies — but on a cream site the result
+ * was invisible, which is the same complaint by the time it reaches somebody
+ * looking at a screen. Measured against that site's own background,
+ * rgb(252, 250, 243):
+ *
+ *     alpha 0.07  ->  rgb(234, 232, 226)  contrast 1.17
+ *     alpha 0.15  ->  rgb(214, 213, 207)  contrast 1.41
+ *
+ * The practical floor for noticing a change of background is around 1.3, and
+ * WCAG asks 3.0 of a non-text interface element. 0.15 clears the first and not
+ * the second, which is deliberate: this is a *wash* under a row, and a tint
+ * strong enough to hit 3.0 would read as a selected row on every site whether
+ * or not anything was selected. The thing that carries the accessibility floor
+ * here is the focus outline, which is the browser's and is untouched.
+ *
+ * What this cannot do, said plainly rather than left for somebody to discover:
+ * **an alpha black does almost nothing on a dark theme.** On rgb(26, 26, 26)
+ * the same three alphas give 1.02, 1.04 and 1.06 — the row does not change at
+ * all. Raising the number further does not fix that; it only makes a light
+ * site heavier. The state that survives a dark theme is the open row's bar in
+ * locator-skin.css, which is `currentColor` and therefore contrasts with its
+ * own background by construction. A site with a dark theme that wants this
+ * state visible sets `--slosm-active-tint` to something of its own, which is
+ * why the property is here.
+ */
+.slosm__suggestion--active,
+.slosm__result--active {
+	background: var( --slosm-active-tint, rgba(0, 0, 0, 0.15) );
+}
+
+/*
+ * A control that is not operable but is still reachable.
+ *
+ * The front end puts aria-disabled on the category select when the shortcode
+ * pinned a category, rather than the disabled attribute, so that the one
+ * element saying what this map is filtered to stays in the tab order — see
+ * wireCategory() for the whole argument. aria-disabled changes nothing a
+ * browser paints, though, so a control that cannot be used would otherwise
+ * look exactly like one that can. That is why this is not in the skin with the
+ * rest of the control styling: the skin makes the controls look like controls,
+ * and this says one of them is not one.
+ *
+ * Opacity and a cursor, and nothing that invents a colour. The greying a
+ * browser does to a real disabled control is the theme's palette; this is the
+ * closest thing available that cannot fight a dark theme.
+ */
+.slosm__category[aria-disabled='true'] {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+/*
+ * A button that has to read as a row of text, which is why the reset is here
+ * and not in the skin: without it a result list is a column of native grey
+ * boxes, and that is the plugin looking broken rather than the theme showing
+ * through.
+ */
+.slosm__result-open {
+	display: block;
+	width: 100%;
+	text-align: inherit;
+	font: inherit;
+	color: inherit;
+	background: none;
+	border: 0;
+	padding: 0;
+	cursor: pointer;
+}
+
+.slosm__result-name {
+	display: block;
+	font-weight: 600;
+}
+
+.slosm__result-address,
+.slosm__result-city,
+.slosm__result-distance {
+	display: block;
+}
+
+.slosm .slosm__result-categories {
+	list-style: none;
+	margin: 0.25em 0 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25em 0.5em;
+	font-size: 0.85em;
+	opacity: 0.8;
+}
+
+/*
+ * The pin under the pointer, or under the focus ring in the results list. A
+ * filter rather than a colour, for the same reason as the tint above: the
+ * marker is Leaflet's own image and this plugin has no business repainting it.
+ */
+.slosm__marker--active {
+	filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.6));
+}
+
+/*
+ * The popup on a pin.
+ *
+ * Leaflet's own .leaflet-popup-content carries the box, the tip, the shadow
+ * and the close button, and none of that is re-stated here: this plugin styles
+ * what it builds and nothing it was given. The width Leaflet sets is
+ * maxWidth 300 by default, which is why nothing below sets one.
+ *
+ * The whole popup is in this half rather than split. `pre-line` on the address
+ * and the hours is load-bearing rather than decorative — both are one text
+ * node with newlines in it, see addressBlock() and the hours field, which
+ * Rest_Controller's schema describes as "free text, newlines significant", and
+ * the default white-space collapses those into spaces and runs an editor's
+ * opening hours into one line. The rhythm around it is what makes that
+ * readable, and a popup half-styled by a file that may not be there is not
+ * worth the tidiness of moving three margins.
+ */
+/*
+ * The popup's own type size, and why a *plugin* is setting one at all.
+ *
+ * Measured on a live Bricks site before this rule existed: the bubble rendered
+ * at **8.1px**, with its wrapper at 7.5px. Nothing here asked for that.
+ * Leaflet's own stylesheet puts `font-size: 12px` on `.leaflet-container`, a
+ * theme multiplies somewhere down the chain, and everything inside inherits
+ * the product. A popup this plugin builds out of an address and a phone
+ * number is then unreadable, and no amount of margin tuning fixes eight-pixel
+ * text.
+ *
+ * Not `em`, and not `rem` alone, and the second half of that was found by
+ * measuring rather than by reasoning. An `em` here is a fraction *of the
+ * 7.5px* and inherits the defect it exists to stop. `rem` looked like the
+ * answer — until the same page reported `html { font-size: 10px }`, the 62.5%
+ * trick a great many themes use so that authors can write `1.6rem` and mean
+ * 16px. On such a site `0.875rem` is 8.75px, which is the bug again with a
+ * different arithmetic, and it is also *why* Leaflet's own `0.75rem` came out
+ * at 7.5px in the first place.
+ *
+ * So: `max()` of the two readings, which takes whichever is larger. On an
+ * ordinary site the rem wins and the popup scales with the page; on a 62.5%
+ * site the floor wins and the popup is legible anyway. `max()` is from 2020 —
+ * Chrome 79, Safari 13.4, Firefox 75 — comfortably inside this plugin's
+ * WordPress 6.0 floor, unlike the `color-mix()` and container queries refused
+ * elsewhere for being too new.
+ *
+ * `min-width` for the same reason and from the same measurement — that bubble
+ * came out 97px wide, because Leaflet sizes a popup from its content and
+ * eight-pixel content is narrow. Leaflet clears the width before measuring
+ * (`_updateLayout` sets `style.width = ''`, reads `scrollWidth`, then clamps
+ * between its minWidth and maxWidth), so a floor on the content node is a
+ * floor Leaflet sees and honours.
+ *
+ * In the always-loaded half rather than the skin, and that is the departure
+ * this comment is really for. The header above says the popup is not split,
+ * and it is still not: what is here is the two declarations that keep it
+ * *legible*, which is not a decoration, and a site that switches the skin off
+ * must not get the eight-pixel version back. The skin tunes the box around
+ * them — Leaflet's own margins — and nothing else.
+ */
+.slosm__popup {
+	font-size: var( --slosm-popup-font-size, max( 0.875rem, 13px ) );
+	line-height: var( --slosm-popup-line-height, 1.45 );
+	min-width: var( --slosm-popup-min-width, 13em );
+}
+
+/*
+ * The rhythm between a name, an address, a phone number and the rest — and a
+ * rule that, as written until now, did nothing at all.
+ *
+ * `.slosm__popup > *` is one class and a universal: specificity (0,1,0).
+ * Leaflet's own stylesheet carries `.leaflet-popup-content p { margin: 1.3em
+ * 0 }`, which is (0,1,1) and therefore wins on every one of these blocks,
+ * because Shortcode's popup builds them as paragraphs. Measured on a live
+ * page: 16.9px between blocks where this file believed it had asked for
+ * 0.35em. Load order had nothing to do with it — leaflet.css is enqueued
+ * first, so this was losing on specificity alone.
+ *
+ * The `.slosm` in front is the fix and nothing more: (0,2,0) outranks
+ * (0,1,1), and a popup is always inside its locator — Leaflet's popup pane
+ * lives in the map container, which is `.slosm__map`. No `!important`, which
+ * would win the same argument by refusing to have it, and would take the rule
+ * out of reach of the site as well as of Leaflet.
+ *
+ * The value moved from 0.35em to 0.5em at the same time, and for a reason
+ * rather than to taste: at this type size the leading *inside* a block is
+ * about 0.45em, so a gap of 0.35em between two blocks would be tighter than
+ * the gap between two lines of one block — the address would read as running
+ * into the phone number. A separation has to be at least as large as the
+ * thing it separates.
+ */
+.slosm .slosm__popup > * {
+	margin: 0 0 var( --slosm-popup-gap, 0.5em );
+}
+
+.slosm .slosm__popup > :last-child {
+	margin-bottom: 0;
+}
+
+.slosm__popup-name {
+	font-weight: 600;
+}
+
+.slosm__popup-address,
+.slosm__popup-hours {
+	white-space: pre-line;
+}
+
+.slosm .slosm__popup-categories {
+	list-style: none;
+	margin: 0 0 0.35em;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25em 0.5em;
+	font-size: 0.85em;
+	opacity: 0.8;
+}
+
+.slosm__popup-hours,
+.slosm__popup-description {
+	opacity: 0.9;
+}
+
+/*
+ * `display: inline-block` here is not a treatment of a link, and saying so is
+ * the whole reason the *other* directions link has no matching rule.
+ *
+ * An <a> is an inline box, and a vertical margin on one does nothing. The
+ * popup's rhythm is `.slosm__popup > *` above; this is the one child of it
+ * that is inline, so `inline-block` is what lets the quarter-em above the link
+ * exist at all. Where the link sits on the line is not in question in either
+ * place: in the popup and in a result row alike every preceding sibling is
+ * block-level, so it already starts a line of its own without help.
+ *
+ * `.slosm__result-directions` — the same link, in `.slosm__result`, from
+ * Shortcode::row_template() — therefore has nothing for a rule to enable.
+ * There is no `.slosm__result > *` margin for an inline-block to unlock, and a
+ * gap above it would be a number invented here: the tuning surface in the
+ * header says every value in this file is a `--slosm-*` property with its own
+ * value as the fallback, so it would be a variable bought for a spacing change
+ * nothing in this repository can see. Whether a row wants that gap is a look
+ * question and belongs on Task 26's manual list rather than in a rule added
+ * from reading a diff.
+ */
+.slosm__popup-directions {
+	display: inline-block;
+	margin-top: 0.25em;
+}
+
+/*
+ * The coloured dot, for a site that chose it over the standard pin.
+ *
+ * The pin is Leaflet's own 25×41 PNG, vendored in assets/leaflet/images/, and
+ * being an image is the whole reason this alternative exists: it is the one
+ * thing on the map a stylesheet cannot reach. dotIcon() in
+ * assets/js/locator.js builds the node and sets the background colour from the
+ * setting; everything else about the shape is here.
+ *
+ * Which is why it is in this half. Every pixel of this marker is drawn by
+ * these two rules, so a site that chose the dot and switched the skin off
+ * would have no markers at all — the map failing rather than looking plain,
+ * which is the line the header draws.
+ *
+ * The size is declared in both places and cannot be helped: Leaflet needs the
+ * numbers as an iconSize option to position the icon, and css needs them to
+ * draw it. DOT_SIZE is the source of the pair, and this is the copy.
+ *
+ * box-sizing, because the border is drawn inside the 16 pixels Leaflet
+ * positioned the icon at rather than outside them — otherwise the dot sits two
+ * pixels up and to the left of the place it marks.
+ */
+.slosm__marker--dot {
+	background: none;
+	border: 0;
+}
+
+.slosm__dot {
+	display: block;
+	width: 16px;
+	height: 16px;
+	box-sizing: border-box;
+	border-radius: 50%;
+	/* The default, for a dot whose colour the config did not carry. Leaflet's
+	   own #3388ff, so a site that chose the dot and named no colour gets the
+	   shade the rest of Leaflet's controls already use. */
+	background-color: #3388ff;
+	border: 2px solid #fff;
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+}
+
+/*
+ * The focus and hover state, on the dot as well as on the pin. The pin's own
+ * highlight is further up this file and keys on the same class; a dot with no
+ * visible focus would be a keyboard-unreachable-looking marker on exactly the
+ * sites that customised it.
+ */
+.slosm__marker--active .slosm__dot,
+.slosm__marker--dot:focus .slosm__dot {
+	box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.45);
+}

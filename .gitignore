@@ -1,0 +1,11 @@
+node_modules/
+vendor/
+*.zip
+.DS_Store
+Thumbs.db
+*.bak
+*.bak.*
+
+# Working notes: the plan, the per-task write-ups and the mutation tables.
+# They stay on the machine; what is published here is the plugin.
+docs/

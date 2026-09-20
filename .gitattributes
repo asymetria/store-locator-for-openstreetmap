@@ -1,0 +1,30 @@
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.gif binary
+*.woff binary
+*.woff2 binary
+
+# Vendored third-party libraries are stored byte for byte. Without this,
+# `* text=auto eol=lf` above rewrites CRLF in leaflet.css and LICENSE, and a
+# fresh clone no longer matches the SHA-512 digests recorded as proof of
+# provenance in assets/leaflet/README.md.
+assets/leaflet/** -text
+assets/markercluster/** -text
+
+# Neither of these belongs in a distributed copy of the plugin. `tests/` calls
+# `shell_exec()`, which is something the human reviewers at WordPress.org stop
+# on, and `docs/` is a quarter of a megabyte of prose about how the plugin was
+# built rather than about how to use it.
+#
+# READ THIS BEFORE TRUSTING IT TO DO THAT. `export-ignore` is honoured by
+# `git archive` and by nothing else. It is what keeps these out of a GitHub
+# release tarball, and it has **no effect at all** on a WordPress.org build:
+# the directory is served from SVN, and a zip built by copying a checkout, by
+# `wp dist-archive`, or by the deploy action everybody uses reads `.distignore`
+# — a file this repository does not have yet. Task 25 owns writing it, and
+# these two lines are not a substitute for it.
+docs/ export-ignore
+tests/ export-ignore
+.gitattributes export-ignore
+.gitignore export-ignore

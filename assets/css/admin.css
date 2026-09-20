@@ -1,0 +1,187 @@
+/**
+ * Store Locator for OpenStreetMap: the admin screens.
+ *
+ * WHY THIS FILE EXISTS NOW AND DID NOT BEFORE
+ * ===========================================
+ * Tasks 17 and 19 printed their few declarations in an inline `<style>` block
+ * and each said, in the docblock of the method that printed it, that the trade
+ * was deliberate and that Task 21 was where an admin stylesheet would earn its
+ * handle. This is that task, and this is the handle. Fifteen declarations for
+ * one metabox did not justify a file, an enqueue and a screen check; a settings
+ * screen with four tabs, a checkbox grid and a two-column layout does, and the
+ * other two ride along for free.
+ *
+ * Both blocks are moved here as they were, not rewritten. Anything that looks
+ * odd in them is explained where it sits.
+ *
+ * WHAT IS DELIBERATELY NOT HERE
+ * =============================
+ * Anything core already does. The settings screen uses core's own `.wrap`,
+ * `.nav-tab-wrapper`, `.form-table`, `.regular-text`, `.small-text`,
+ * `.large-text`, `.button` and `.notice`, so what is left below is the handful
+ * of things core has no class for: the checkbox grid, and the two blocks that
+ * came in from the other screens.
+ *
+ * No colours of this plugin's own, with one exception that is core's colour
+ * rather than a choice — see .slosm-list__unplaced.
+ */
+
+/* ---------------------------------------------------------------------------
+ * The location metabox. Moved from Admin::print_styles().
+ * ------------------------------------------------------------------------- */
+
+.slosm-metabox {
+	display: grid;
+	grid-template-columns: repeat( auto-fit, minmax( 220px, 1fr ) );
+	gap: 0 24px;
+}
+
+.slosm-metabox__heading {
+	margin: 1em 0 0.5em;
+	font-size: 13px;
+}
+
+.slosm-metabox__field {
+	margin: 0 0 0.8em;
+}
+
+.slosm-metabox__field label {
+	display: block;
+	margin-bottom: 0.2em;
+	font-weight: 600;
+}
+
+.slosm-metabox__coordinates {
+	display: grid;
+	grid-template-columns: repeat( auto-fit, minmax( 220px, 1fr ) );
+	gap: 0 24px;
+	border-top: 1px solid #dcdcde;
+	margin-top: 1em;
+}
+
+.slosm-metabox__coordinates .slosm-metabox__heading,
+.slosm-metabox__coordinates .description {
+	grid-column: 1 / -1;
+}
+
+.slosm-metabox__picker {
+	grid-column: 1 / -1;
+	margin: 0 0 0.8em;
+}
+
+/*
+ * A height in pixels and not a percentage: Leaflet measures the container when
+ * the map is created, and a percentage of a parent with no height of its own is
+ * zero. A map of zero height renders nothing and reports nothing.
+ */
+.slosm-metabox__map {
+	height: 320px;
+	max-width: 100%;
+	border: 1px solid #dcdcde;
+}
+
+.slosm-metabox__actions {
+	margin: 0.6em 0 0;
+}
+
+.slosm-metabox__notice {
+	margin: 0.6em 0 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * The locations list. Moved from Locations_List::print_styles().
+ * ------------------------------------------------------------------------- */
+
+/*
+ * Core's own error red, so the warning looks like every other thing WordPress
+ * marks as wrong rather than like this plugin having opinions about red.
+ */
+.slosm-list__unplaced {
+	color: #b32d2e;
+}
+
+.slosm-list__unplaced .dashicons {
+	font-size: 16px;
+	width: 16px;
+	height: 16px;
+	vertical-align: text-bottom;
+}
+
+.slosm-list__placed {
+	color: #50575e;
+}
+
+/* ---------------------------------------------------------------------------
+ * The settings screen.
+ * ------------------------------------------------------------------------- */
+
+/*
+ * The checkbox groups — which fields a result row shows, which a popup shows.
+ * One per line rather than wrapped inline, because the labels are one or two
+ * words and a wrapped row of eight of them is a wall somebody has to read
+ * twice. Eight lines is the longest list there is.
+ */
+.slosm-settings__choice {
+	display: block;
+	margin: 0 0 0.35em;
+}
+
+/*
+ * Wider than core's .regular-text for the two comma-separated number lists and
+ * the endpoints, without reaching for .large-text's full width on a wide
+ * screen, where a url field a thousand pixels long is harder to read than a
+ * shorter one.
+ */
+.slosm-settings .form-table input.large-text {
+	max-width: 46em;
+}
+
+/* ---------------------------------------------------------------------------
+ * The shortcode generator.
+ * ------------------------------------------------------------------------- */
+
+/*
+ * The textarea, its live region and the button the script adds sit on one row
+ * that wraps. Flex rather than a grid because the button is not always there:
+ * without JavaScript there are two children, with it there are three, and a
+ * grid would have to be told twice.
+ */
+.slosm-shortcode__output {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: 8px;
+	max-width: 46em;
+}
+
+/*
+ * The textarea takes the row and the rest wraps under it. `flex-basis: 100%`
+ * rather than a width, so the gap above is what separates them.
+ */
+.slosm-shortcode__text {
+	flex: 1 1 100%;
+	font-family: Consolas, Monaco, monospace;
+}
+
+/*
+ * The live region keeps its line whether or not it has anything in it, so the
+ * button does not jump down the page the first time something is copied.
+ */
+.slosm-shortcode__status {
+	margin: 0;
+	min-height: 1.5em;
+	line-height: 1.5em;
+	color: #50575e;
+}
+
+.slosm-shortcode__preview {
+	max-width: 46em;
+	margin-top: 1em;
+}
+
+.slosm-shortcode__summary {
+	max-width: 46em;
+	margin: 0.5em 0 1em;
+	list-style: disc;
+	padding-left: 1.4em;
+}

@@ -1,0 +1,464 @@
+/**
+ * Store Locator for OpenStreetMap: the locator's skin.
+ *
+ * The switchable half. assets/css/locator.css is the other one and is loaded
+ * on every page carrying a locator; this file is loaded unless the Advanced
+ * tab says otherwise, and the header over there has the argument for why the
+ * two are separate files rather than one file behind one switch.
+ *
+ * What is in here
+ * ---------------
+ * The form row and the controls in it: the rhythm of label over control, the
+ * gaps between the four fields, the padding and border that make an <input>,
+ * a <select> and two <button>s the same height as each other, and the small
+ * spacing and opacity that the results list and the suggestion popup read
+ * better with. Nothing here is load-bearing. Switch it off and a visitor gets
+ * a plain form on a working map, which is the point: a developer who would
+ * rather start from nothing can, without being able to delete the map by
+ * accident.
+ *
+ * Why it exists at all, rather than "inherit from the theme"
+ * ---------------------------------------------------------
+ * Because on the platform this plugin is aimed at there is usually nothing to
+ * inherit. Bricks styles form fields through the Form element's own controls,
+ * generated per instance and scoped to it, so a Bricks site commonly has no
+ * global `input` or `select` styling of any kind — every form on it carries
+ * its own. A plugin that "left the controls to the theme" there would ship raw
+ * browser widgets on every such site forever.
+ *
+ * The one colour rule
+ * -------------------
+ * This file names no colour of its own. Not a hex, not an `rgb()`, not an
+ * `hsl()` — `currentColor`, `inherit` and `none`, and nothing else, with
+ * tests/test-stylesheet.php holding it to that. It is the layer a dark theme
+ * keeps, so a colour invented here is pale text on a white box or a foreign
+ * hue dragged onto a light site. The layout layer carries the five colours
+ * this plugin genuinely cannot do without, each argued beside its rule.
+ *
+ * The controls, and why they are not an exception to the restraint
+ * ---------------------------------------------------------------
+ * - `font: inherit` and `color: inherit`. A browser gives a form control its
+ *   own system font at around 13px, and that single fact is most of why a
+ *   plugin's form looks imported from another website. `font` rather than
+ *   `font-family` is deliberate: the shorthand carries line-height, which is
+ *   what makes a <select> and a <button> beside it end up the same height.
+ * - `background: none` is load-bearing beside `color: inherit`, not a
+ *   preference. A control keeps the user agent's `field` background — white on
+ *   a light system — while taking the theme's text colour, so on a dark theme
+ *   `color: inherit` alone paints pale text on a white box. Transparent is the
+ *   theme's own background behind the theme's own text, whichever way round
+ *   they are. It is the removal of a colour, not the painting of one.
+ * - The border is `currentColor`, at full strength, and that is a compromise
+ *   worth naming. The quiet border this wanted is `currentColor` with alpha,
+ *   which css can only express through `color-mix()` — shipped in Firefox 113
+ *   and Safari 16.2, *later* than the container queries the other file refuses
+ *   as too new. The alternative, an alpha black like the suggestion popup's,
+ *   is a colour of this file's own and disappears on a dark theme. So:
+ *   full-strength currentColor, and a custom property so that one line —
+ *   `--slosm-control-border-color: rgba(0, 0, 0, 0.2)` — buys the quieter
+ *   version on a site that knows its own background.
+ * - The native <select> stays native. No `appearance: none`, no drawn arrow: a
+ *   custom arrow is more code, worse keyboard and screen-reader behaviour and
+ *   a different look on every platform, while the native control already has
+ *   the operating system's.
+ *
+ * The tuning surface
+ * ------------------
+ * Nine custom properties, declared on `.slosm` and read as
+ * `var( --name, <that same value> )`. They are declared here rather than in
+ * the layout layer because only rules in this file read them: a property
+ * declared where its rule is not would be a tuning surface with nothing on the
+ * other end of it. A case asserts that no fallback has drifted from the
+ * declaration beside it, and that no rule in the always-loaded half reads a
+ * property only this file declares.
+ */
+
+.slosm {
+	/* The filter row: down the page when it wraps, across it between
+	   controls. */
+	--slosm-row-gap: 0.5em;
+	--slosm-column-gap: 1em;
+
+	/* A field's label to its control. */
+	--slosm-label-gap: 0.25em;
+
+	/* Every control's inner spacing, which is also what makes their heights
+	   agree: same padding, same inherited line-height, same border width. */
+	--slosm-control-padding: 0.4em 0.6em;
+	--slosm-control-border-width: 1px;
+	--slosm-control-border-color: currentColor;
+
+	/* Set these two together or not at all. A background with no colour
+	   beside it is a filled control holding the theme's text, which is the
+	   one combination that can be unreadable. */
+	--slosm-control-background: none;
+	--slosm-control-color: inherit;
+
+	/* The floor under a select, so the widest option cannot be cut in half by
+	   whatever width it ends up with. */
+	--slosm-select-min-width: min-content;
+
+	/* How much room the address field asks for before the row wraps. It is
+	   the only greedy item in the row, so it is the one that decides when the
+	   buttons get pushed onto a line of their own. */
+	--slosm-search-basis: 10em;
+
+	/* The results list: a step down from body text, and a rhythm that is the
+	   same number everywhere rather than three that happen to look close. */
+	--slosm-result-font-size: 0.9375em;
+	--slosm-result-line-height: 1.45;
+	--slosm-result-gap: 0.35em;
+
+	/* The bar on the row whose popup is open. */
+	--slosm-result-open-marker: 2px;
+
+	/* Leaflet's own margin around the popup content, tightened. Argued at
+	   the rule, which is the one place either stylesheet names a Leaflet
+	   class. */
+	--slosm-popup-content-margin: 0.75em 1.5em 0.75em 1em;
+}
+
+/*
+ * The filter row.
+ *
+ * `align-items: flex-end` is what gives the row its baseline: a field is a
+ * label stacked over a control, a button is a control on its own, and ending
+ * them all level means the controls line up with each other rather than the
+ * tops of the boxes they are in.
+ *
+ * `position: relative` is *not* here. It is in the layout layer, because the
+ * suggestion popup is positioned against this element and a popup that lost
+ * its anchor would land somewhere up the page rather than under the field.
+ */
+.slosm__filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var( --slosm-row-gap, 0.5em ) var( --slosm-column-gap, 1em );
+	align-items: flex-end;
+	margin: 0 0 0.75em;
+}
+
+/*
+ * A field is a label stacked over its control.
+ *
+ * `margin: 0` is the one declaration here that is not about the stack, and it
+ * is the same defence the controls below already carry one line at a time —
+ * pointed at a theme rather than at a user agent. Measured on a live Bricks
+ * site: every `.slosm__field` arrived with `margin: 0 0 5px` from the theme's
+ * own form styling, while the two buttons beside them carry the `margin: 0`
+ * this file sets explicitly. Under `align-items: flex-end` that is a row whose
+ * four fields sit five pixels above its two buttons — which is exactly what
+ * "the fields are not in line" looks like, and is not something any amount of
+ * gap or alignment tuning can fix, because the boxes really are that shape.
+ */
+.slosm__field {
+	display: flex;
+	flex-direction: column;
+	gap: var( --slosm-label-gap, 0.25em );
+	margin: 0;
+}
+
+/*
+ * The address field, and the reason its basis is a tuning value.
+ *
+ * It is the only `flex-grow` in the row, so it takes every spare pixel — and
+ * it is therefore the item that decides when there are no spare pixels left
+ * and something wraps. Reported from a real page: the four fields and the
+ * Search button on one line with "Use my location" stranded on a second.
+ * Sixteen ems was a generous ask for a field that is rarely typed into by more
+ * than a postcode, and the three selects cannot give anything back — their
+ * `min-content` floor is what stops "All categories" being cut in half.
+ *
+ * `min-width: 0` is the other half and is the flexbox trap rather than a
+ * preference: a flex item's automatic minimum size is its content, so an input
+ * refuses to shrink below its own default width no matter what the basis says.
+ * Without it the basis below is a number the row is free to ignore.
+ *
+ * Wrapping is still allowed and still right. This moves where it happens, from
+ * "most desktop columns" to "narrow ones".
+ */
+.slosm__field--search {
+	flex: 1 1 var( --slosm-search-basis, 10em );
+	min-width: 0;
+}
+
+.slosm__field-label {
+	font-size: 0.85em;
+	opacity: 0.8;
+}
+
+/*
+ * The four controls and the two buttons, as one rule, because the whole point
+ * is that they agree with each other.
+ *
+ * Selected structurally — `.slosm__field input`, `.slosm__field select` —
+ * rather than by the four class names, because Shortcode::field() composes
+ * `slosm__{name}` from its argument: a fifth filter added later is a class
+ * this file has never heard of, and a rule that named the four would leave it
+ * as the raw widget this file exists to stop shipping.
+ *
+ * The buttons are named, because they are not in a field and there are only
+ * ever these two. `.slosm__result-open` is deliberately not here: it is a
+ * button that must read as a row of text, and the layout layer says so with
+ * `background: none; border: 0`.
+ *
+ * `text-decoration: none` answers one thing that was observed on a real site
+ * rather than read out of this repository: the two buttons rendering as
+ * underlined text. Nothing here or in the markup underlines a button, so it is
+ * a theme doing it, and a theme with any more specificity than this rule still
+ * wins — which is the promise in the header and is not being broken to fix a
+ * symptom.
+ */
+.slosm__field input,
+.slosm__field select,
+.slosm__submit,
+.slosm__locate {
+	font: inherit;
+	color: var( --slosm-control-color, inherit );
+	background: var( --slosm-control-background, none );
+	border: var( --slosm-control-border-width, 1px ) solid var( --slosm-control-border-color, currentColor );
+	padding: var( --slosm-control-padding, 0.4em 0.6em );
+	/* The margin a user agent puts on form controls, which is 0 in most and
+	   2px in Safari, and is the reason a row looks a pixel out of true there. */
+	margin: 0;
+	/* Not decorative: `max-width: 100%` below and any width a theme sets are
+	   both outer measurements to a visitor, and a control whose padding lands
+	   outside them overflows the column it was told to fit. */
+	box-sizing: border-box;
+}
+
+.slosm__submit,
+.slosm__locate {
+	cursor: pointer;
+	text-decoration: none;
+}
+
+/*
+ * The select, sized to what it holds.
+ *
+ * The defect this answers is "All categories" running under the arrow, and the
+ * honest version of it is that **no stylesheet here has ever set a width on a
+ * select** — so the clipping came from the theme or from the row shrinking,
+ * not from a fixed width to remove. Hence a floor rather than a width:
+ * whatever decides how wide this control is, it may not decide on less than
+ * the widest option needs. `min-content` on a select is that width; it is not
+ * the text of the selected option, so a long category name in the list widens
+ * the closed control too, which is the trade for never cutting one in half.
+ *
+ * `width: auto` takes back a width a theme put on `select` — on its own it
+ * changes nothing here, since a control in a column flex container is already
+ * stretched to the field and `auto` is what makes that happen. `max-width`
+ * keeps it inside the theme's column when a theme has set something wider.
+ * The two are guards against a page this repository cannot see; the floor is
+ * the fix.
+ */
+.slosm__field select {
+	width: auto;
+	min-width: var( --slosm-select-min-width, min-content );
+	max-width: 100%;
+	/*
+	 * The arrow, put back.
+	 *
+	 * The header above used to say "the native <select> stays native. No
+	 * appearance: none, no drawn arrow" — and that was true of this file and
+	 * still is. It was not true of the result. Measured on a live Bricks site:
+	 * the theme sets `appearance: none` on every select and draws its own
+	 * arrow as a `background-image`, and the rule further up sets
+	 * `background: none` for a reason that has not changed. Between the two,
+	 * the theme's arrow is painted out and the native one is already gone, so
+	 * the control is a box with no indication that it opens anything.
+	 *
+	 * `appearance: auto` is the whole fix. It says "draw this as the platform
+	 * draws it", which puts the operating system's own indicator back without
+	 * this file naming a colour or shipping an image — and, verified on that
+	 * same page, without taking back the transparent background or the border
+	 * set above, because those are explicit declarations and this is not.
+	 *
+	 * So the promise is unchanged and now kept: the arrow is the platform's,
+	 * not one drawn here.
+	 */
+	appearance: auto;
+	-webkit-appearance: auto;
+}
+
+/*
+ * One row of the suggestion popup. The box itself — where it sits, that it is
+ * opaque, that a closed one stays closed — is in the layout layer; this is
+ * only how much room a row takes and that it can be clicked.
+ */
+.slosm__suggestion {
+	padding: 0.5em 0.75em;
+	cursor: pointer;
+}
+
+/*
+ * The status line: "no results", "Searching…", or the reason a lookup failed.
+ * Shortcode::render() emits it above the map and say() writes into it, and it
+ * carries role="status" in the markup — so it is announced whether or not this
+ * file is here. What is here is only how much room it takes and how quiet it
+ * looks. The rule that hides it while it is empty is in the layout layer,
+ * because an empty grid item holds a row open.
+ */
+.slosm__message {
+	padding: 1em 0;
+	opacity: 0.8;
+}
+
+/*
+ * The distance is the one line in a result that is not the address, and it
+ * reads as an aside. `display: block` on it is in the layout layer with the
+ * other two lines, because a distance running into the city name is the row
+ * being wrong rather than plain.
+ */
+.slosm__result-distance {
+	opacity: 0.8;
+}
+
+/*
+ * The results list.
+ *
+ * Reported as three things and answered as one: the type is a step too large
+ * beside the map, the gaps between a name, an address and "Directions" are
+ * three different numbers that happen to look close, and the scrollbar is the
+ * fat platform default sitting inside a small column.
+ *
+ * `font-size` on the list rather than on each line, so one number moves all of
+ * it and the ratios between the parts — the 0.85em on the categories, the
+ * name's weight — stay whatever the layout layer decided. The layout layer
+ * sets no size at all, which is what let the body's own come through at full
+ * strength.
+ *
+ * Nothing here is load-bearing. Switch the skin off and the list is body-sized
+ * text with the layout layer's hairline between rows, which reads perfectly
+ * well; it is simply larger than it wants to be next to a 480px map.
+ */
+.slosm__results {
+	font-size: var( --slosm-result-font-size, 0.9375em );
+	line-height: var( --slosm-result-line-height, 1.45 );
+	/*
+	 * The scrollbar, made thin rather than repainted.
+	 *
+	 * `scrollbar-width` is the one lever that needs no colour, which matters
+	 * here more than usual: a thumb painted by this file would be a colour of
+	 * its own on the one layer that may not have one, and `currentColor` at
+	 * full strength is a bar of body-text ink down the side of the list.
+	 * Firefox has had this since 64 and Chromium since 121; everywhere else
+	 * the list keeps the platform scrollbar, which is the pre-existing state
+	 * and not a regression.
+	 *
+	 * `scrollbar-gutter` is the other half of the complaint and the half that
+	 * is not about looks: without it the bar appears and disappears with the
+	 * number of results and takes the column's width with it, so the rows
+	 * reflow every time a filter changes.
+	 */
+	scrollbar-width: thin;
+	scrollbar-gutter: stable;
+}
+
+/*
+ * One row, the same shape wherever the locator was rendered.
+ *
+ * This is the "the list looks different in the widget than in the shortcode"
+ * report, and the measurement behind it is two numbers off two live pages:
+ * `.slosm__result` came back with `margin: 0 0 8px` inside a post's content
+ * and `margin: 0` inside the Bricks element. Neither is ours — the layout
+ * layer gives a row padding and a hairline and no margin at all — so it is the
+ * theme styling `li` within its content wrapper, which the builder's own
+ * element renders outside of. Same plugin, same markup, two rhythms, decided
+ * by which wrapper the locator happened to land in.
+ *
+ * `margin: 0` is not a preference about spacing. The spacing is the padding
+ * and the hairline above; this only stops a number arriving from outside and
+ * making the same list two different lists.
+ */
+.slosm .slosm__result {
+	margin: 0;
+}
+
+/*
+ * One rhythm, from one value.
+ *
+ * The row's own padding is the layout layer's, because it is what the hairline
+ * needs to sit clear of the text. What is here is the space *inside* a row:
+ * between the button holding the name and address and the "Directions" link
+ * under it, and above the list of categories when there is one.
+ */
+.slosm__result-directions {
+	display: inline-block;
+	margin-top: var( --slosm-result-gap, 0.35em );
+	/*
+	 * Quieter than the location it belongs to, because it is the second thing
+	 * a row offers and was reading as the first. In a list of three results
+	 * the word "Directions" appeared three times at full strength, in the same
+	 * size as the names, and it is the most repeated string in the column.
+	 *
+	 * The same 0.85em and 0.8 opacity the categories and the distance already
+	 * use — this file's existing vocabulary for "an aside", rather than a
+	 * fourth number invented for one element.
+	 */
+	font-size: 0.85em;
+	opacity: 0.8;
+}
+
+/*
+ * The row whose popup is open.
+ *
+ * `.slosm__result--active` in the layout layer is the *pointer and focus*
+ * state — it comes on at mouseenter and at focus and goes off at blur, which
+ * is right for "this is the one you are about to choose" and wrong for "this
+ * is the one you are looking at". A visitor who clicks a row, moves the mouse
+ * to the map and reads the bubble has no highlight left anywhere in the list.
+ *
+ * The hook is the attribute the front end already maintains for screen
+ * readers: wirePopup() puts `aria-expanded="true"` on the opener while its
+ * popup is up and takes it off when it closes. So this needs no new class, no
+ * new javascript and no second source of truth — and it cannot drift out of
+ * step with what a screen reader is being told, because it is the same fact.
+ *
+ * A bar in `currentColor` rather than a tint: the tint is taken, this file may
+ * not name a colour, and an inset box-shadow costs no layout. The padding
+ * moves the text clear of the bar and is applied on both states so that
+ * opening a row does not shift its text sideways.
+ */
+.slosm__result-open {
+	padding-left: calc( var( --slosm-result-open-marker, 2px ) + 0.5em );
+}
+
+.slosm__result-open[aria-expanded='true'] {
+	box-shadow: inset var( --slosm-result-open-marker, 2px ) 0 0 currentColor;
+}
+
+/*
+ * Leaflet's own margin around the popup content, tightened.
+ *
+ * The only rule in either stylesheet that names a `.leaflet-` class, and the
+ * layout layer's header forbids exactly this — so it is here, in the half that
+ * can be switched off, and it is worth saying what makes it different from the
+ * cases that header refuses.
+ *
+ * Leaflet's `.leaflet-popup-content` carries `margin: 13px 24px 13px 20px`, in
+ * pixels, chosen for its own 12px type. The bubble this plugin puts inside it
+ * is an address, a phone number and opening hours at the size the layout layer
+ * now sets, and those margins around that content are a box mostly made of
+ * empty space — reported from a real page, and visible in the screenshot that
+ * came with the report.
+ *
+ * The `font-size` beside it is not a second opinion about the type — it is
+ * what makes the margin mean anything. The margin is in `em`, `em` resolves
+ * against the element it is written on, and this element is the *parent* of
+ * the node the layout layer sizes. Left alone it keeps the 8px it inherited
+ * from the chain described over in locator.css, so `0.75em` would be six
+ * pixels: the right answer reached by the wrong arithmetic, and a number that
+ * would move again on the next site with a different root. Same value as the
+ * layout layer's, read from the same property, so the two cannot drift.
+ *
+ * Otherwise it is a margin and nothing else. The box, the tip, the shadow and
+ * the close button are untouched, and switching this file off restores
+ * Leaflet's own spacing exactly. A Leaflet upgrade that renamed this class
+ * would turn this rule into a no-op, which is a popup with slightly generous
+ * margins — the failure mode is the old look, not a broken one.
+ */
+.leaflet-popup-content {
+	font-size: var( --slosm-popup-font-size, max( 0.875rem, 13px ) );
+	margin: var( --slosm-popup-content-margin, 0.75em 1.5em 0.75em 1em );
+}

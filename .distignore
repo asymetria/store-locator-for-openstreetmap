@@ -1,0 +1,68 @@
+# What does not go into a built copy of this plugin.
+#
+# WHO READS THIS FILE, AND WHY IT IS NOT .gitattributes
+# -----------------------------------------------------
+# .gitattributes already carries `export-ignore` on docs/ and tests/, and that
+# is honoured by `git archive` and by nothing else. A WordPress.org build is
+# not a git archive: the directory is served from SVN, and the zip is made by
+# copying a checkout — by `wp dist-archive`, or by the deploy action most
+# repositories use, both of which read this file and neither of which reads
+# .gitattributes. The two files overlap on purpose and neither replaces the
+# other.
+#
+# HOW THE PATTERNS ARE MATCHED, WHICH IS THE ONE TRAP HERE
+# --------------------------------------------------------
+# The deploy action hands this file to `rsync --exclude-from`, where a pattern
+# with no slash in it matches a name at ANY depth. `README.md` on its own would
+# therefore also exclude assets/leaflet/README.md and
+# assets/markercluster/README.md — the two files that record where the bundled
+# libraries came from and what their SHA-512 digests are, which is exactly the
+# evidence a reviewer asks for.
+#
+# So anything whose name appears more than once in this repository is anchored
+# with a leading slash. A tool that does not understand the anchor matches
+# nothing and ships the file, which is the harmless direction to be wrong in.
+#
+# WHAT MUST NEVER BE ADDED HERE
+# -----------------------------
+# assets/ in any form. It holds the stylesheets, the scripts, Leaflet,
+# Leaflet.markercluster and the marker images, all of which are loaded at
+# runtime, and leaflet.css references images/ by relative path. Excluding any
+# of it produces a plugin that installs and then draws a grey box.
+
+# The prose about how this plugin was built, rather than about how to use it.
+docs
+
+# The suite. It calls shell_exec(), tempnam(), file_put_contents(), unlink()
+# and set_error_handler() — all correct where they are, none of it anything a
+# plugin directory should be asked to host.
+tests
+
+# The repository's own front page and its git plumbing. Anchored: README.md is
+# also the name of the two provenance files under assets/, which ship.
+/README.md
+/.distignore
+/.gitattributes
+/.gitignore
+/.git
+/.github
+
+# Build tooling, none of which exists today. This plugin has no dependencies
+# and no build step; the day one of these arrives, the zip must not grow it.
+/composer.json
+/composer.lock
+/package.json
+/package-lock.json
+/phpcs.xml
+/phpcs.xml.dist
+/phpunit.xml
+/phpunit.xml.dist
+/node_modules
+/vendor
+
+# Debris.
+*.zip
+*.bak
+*.bak.*
+.DS_Store
+Thumbs.db
