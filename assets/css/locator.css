@@ -148,6 +148,10 @@
 	--slosm-popup-min-width: 13em;
 	--slosm-popup-gap: 0.5em;
 
+	/* The floor under everything Leaflet renders inside the map. The
+	   attribution is why it is not optional; the rule has the measurement. */
+	--slosm-map-font-size: max( 0.75rem, 11px );
+
 	/* The wash under the row a pointer or the focus is on. Measured rather
 	   than chosen; the rule has the numbers and the caveat. */
 	--slosm-active-tint: rgba(0, 0, 0, 0.15);
@@ -232,6 +236,43 @@
 	.slosm--list-below {
 		display: block;
 	}
+}
+
+/*
+ * The map box — and a floor under the type inside it, which is a licence
+ * matter before it is a legibility one.
+ *
+ * leaflet.css carries `.leaflet-container { font-size: 12px; font-size:
+ * 0.75rem }`, the old progressive-enhancement pair, and everything Leaflet
+ * renders inside the map inherits it: the zoom control's label, the layers
+ * list, and the attribution. On an ordinary site the second declaration is
+ * 12px and there is nothing to fix. On a theme that puts `font-size: 62.5%`
+ * on the root — a very common trick, so that authors can write `1.6rem` and
+ * mean 16px — it is **7.5px**, measured on a live site. That is the same
+ * chain that gave the popup eight-pixel text, and the popup's own floor,
+ * further down, is the other half of this fix.
+ *
+ * Seven-and-a-half-pixel type on the OpenStreetMap credit is not a matter of
+ * taste. The ODbL asks for attribution, and an attribution nobody can read is
+ * an attribution in name only. So this is here, in the always-loaded layer,
+ * where switching the skin off cannot take it away.
+ *
+ * `max()` of the two readings, exactly as the popup does it: on a normal root
+ * the rem wins and the map keeps the 12px Leaflet intended, and on a 62.5%
+ * root the floor wins. It never makes the map's own furniture *larger* than
+ * Leaflet asked for, which matters — this is a credit line and a zoom button,
+ * not body text.
+ *
+ * `.slosm` in front, per the rule at the top of this file: the job of this
+ * declaration is to take back a value something else set on a generic element,
+ * and `.leaflet-container` is exactly that. Without the prefix the two
+ * selectors are both one class on the same element and the winner is decided
+ * by load order — which happens to be ours, because Assets registers this
+ * stylesheet with the Leaflet one as its dependency, but a rule that is right
+ * by accident is a rule waiting to be wrong.
+ */
+.slosm .slosm__map {
+	font-size: var( --slosm-map-font-size, max( 0.75rem, 11px ) );
 }
 
 .slosm__map {

@@ -4,7 +4,7 @@ Tags: store locator, openstreetmap, leaflet, map, store finder
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -255,6 +255,12 @@ themselves are ordinary posts, and they go only if you asked for them to —
 see the question above.
 
 == Changelog ==
+
+= 1.0.1 =
+
+* The OpenStreetMap attribution, and everything else Leaflet draws inside the
+  map, keeps a legible size on themes that set a 62.5% root font size. It was
+  rendering at 7.5px there, which is not an attribution anybody can read.
 
 = 1.0.0 =
 * First release.

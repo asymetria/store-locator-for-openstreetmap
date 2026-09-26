@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Store Locator for OpenStreetMap
  * Description:       A store locator built on Leaflet and OpenStreetMap. No Google Maps API key, no billing account, no third-party map cookies.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Requires at least: 6.0
  * Requires PHP:      8.0
  * Author:            Asymetria
@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! defined( 'SLOSM_VERSION' ) ) {
-	define( 'SLOSM_VERSION', '1.0.0' );
+	define( 'SLOSM_VERSION', '1.0.1' );
 	define( 'SLOSM_FILE', __FILE__ );
 	define( 'SLOSM_DIR', plugin_dir_path( __FILE__ ) );
 	define( 'SLOSM_URL', plugin_dir_url( __FILE__ ) );

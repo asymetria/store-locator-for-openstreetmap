@@ -109,11 +109,6 @@ found by using the plugin rather than by reading it.
   translation function, ambiguous ones carry a context, and a test fails the
   build if a placeholder has no translator comment — but nobody has produced a
   catalogue yet.
-- **The OpenStreetMap attribution can render very small.** Leaflet sizes its
-  own controls in `rem`, and a theme that sets `html { font-size: 62.5% }` —
-  a common trick — turns that into 7.5px. The popup has a floor for exactly
-  this reason; the attribution does not yet, and ODbL asks for that line to be
-  legible.
 - **A search cannot be undone without reloading.** Once a visitor searches an
   address, every distance and every sort is measured from it, and clearing the
   field does not put the locator back to showing everything from nowhere in

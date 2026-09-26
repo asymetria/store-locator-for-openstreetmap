@@ -682,6 +682,7 @@ describe(
 					'.slosm__dot'                       => array( 'width', 'dotIcon() builds an empty node and hands Leaflet a size; every pixel of this marker is drawn here, so a site that chose the dot would have no markers at all.' ),
 					'.slosm__category[aria-disabled=\'true\']' => array( 'opacity', 'aria-disabled is the one state a browser paints nothing for, so without this a control that cannot be used looks exactly like one that can.' ),
 					'.slosm__popup-address'             => array( 'white-space', 'pre-line. The address is one text node with newlines in it, and the default collapses an editor\'s three lines into one.' ),
+					'.slosm .slosm__map'                => array( 'font-size', 'the floor under everything Leaflet renders inside the map, and the attribution is the reason it is not optional. leaflet.css sets `.leaflet-container { font-size: 12px; font-size: 0.75rem }`, and on the very common theme that puts `font-size: 62.5%` on the root that second declaration is 7.5px — measured on a live site. The ODbL asks for the OpenStreetMap credit to be legible, so a site that switches the skin off may not lose this.' ),
 				);
 
 				// The control: a scan that found nothing would pass every
