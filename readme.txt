@@ -1,5 +1,5 @@
 === Store Locator for OpenStreetMap ===
-Contributors: TODO-wordpress-org-username
+Contributors: asymetria
 Tags: store locator, openstreetmap, leaflet, map, store finder
 Requires at least: 6.0
 Tested up to: 7.1
@@ -124,10 +124,10 @@ not part of it.
 endpoint is a setting: a site may point it at its own instance or at a paid
 provider instead.
 
-**Terms and privacy.** TODO — the operator's usage policy and privacy policy
-URLs. They were not filled in here because the session that wrote this file
-was not allowed to make any network request, including to go and read them,
-and an invented URL is worse than a marked gap.
+**Terms and privacy.** Nominatim Usage Policy:
+https://operations.osmfoundation.org/policies/nominatim/ . Privacy policy of
+the OpenStreetMap Foundation, which operates the service:
+https://osmfoundation.org/wiki/Privacy_Policy .
 
 = 2. Photon, the address-suggestion service =
 
@@ -142,8 +142,14 @@ request is made by your server rather than by the visitor's browser.
 
 **Where.** `https://photon.komoot.io/api` by default, and also a setting.
 
-**Terms and privacy.** TODO — the operator's terms of use and privacy policy
-URLs, for the same reason as above.
+**Terms and privacy.** Photon is run by komoot. Its terms are a fair-use
+paragraph on the service's own page, https://photon.komoot.io/ , which reads:
+"You can use the API for your project, but please be fair - extensive usage
+will be throttled. We do not guarantee for the availability and usage might be
+subject of change in the future." The service publishes no privacy policy of
+its own, which is said here rather than papered over with a link to something
+else. A site that needs a documented data-processing agreement for this should
+point the setting at its own Photon instance, or switch suggestions off.
 
 = 3. The OpenStreetMap tile server =
 
@@ -161,8 +167,9 @@ request carries one.
 setting, so a site may use any tile provider it has the right to use.
 
 **Terms and privacy.** Map data and attribution:
-https://www.openstreetmap.org/copyright . TODO — the tile usage policy and the
-foundation's privacy policy URLs, not filled in for the reason given above.
+https://www.openstreetmap.org/copyright . Tile Usage Policy:
+https://operations.osmfoundation.org/policies/tiles/ . Privacy policy of the
+OpenStreetMap Foundation: https://osmfoundation.org/wiki/Privacy_Policy .
 
 = Not a request, but worth saying =
 
