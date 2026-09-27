@@ -127,6 +127,14 @@ trusting a configured centre, why the popup owns the Escape key, why the
 stylesheet is two files — the comment above it says what was measured and what
 was rejected.
 
+## A note on the name
+
+OpenStreetMap is a trademark of the OpenStreetMap Foundation. This plugin works
+with OpenStreetMap data and services and is **not endorsed by, affiliated with,
+or an official product of** the Foundation. Its name follows the Foundation's
+trademark policy, which permits naming software that works specifically with
+OpenStreetMap data and asks for this disclaimer beside it.
+
 ## Licence
 
 GPL-2.0-or-later. Written from scratch; it carries no code from any other

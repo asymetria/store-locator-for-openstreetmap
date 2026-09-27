@@ -100,6 +100,18 @@ plugin, and the endpoints are settings so a site can point at its own.
 Both bundled libraries are GPL-compatible, and each ships with its own licence
 file and a note recording where it came from and what its SHA-512 digest is.
 
+= A note on the name =
+
+OpenStreetMap is a trademark of the OpenStreetMap Foundation. This plugin is an
+independent piece of software that works with OpenStreetMap data and services;
+it is **not endorsed by, affiliated with, or an official product of** the
+OpenStreetMap Foundation. The name follows the Foundation's trademark policy,
+which permits naming software that works specifically with OpenStreetMap data,
+and asks for exactly this disclaimer alongside it.
+
+Leaflet and Leaflet.markercluster are bundled here under their own licences and
+are likewise not affiliated with this plugin's author.
+
 == External services ==
 
 This plugin contacts three external services. Two of them are contacted by
