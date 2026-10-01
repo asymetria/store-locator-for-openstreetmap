@@ -968,9 +968,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode' ) ) {
 			$html .= '<div class="slosm__map" style="height:' . (int) $attributes['height'] . 'px" role="region" aria-label="'
 				. esc_attr(
 					'' === $attributes['label']
-						? __( 'Map of locations', 'store-locator-for-openstreetmap' )
+						? __( 'Map of locations', 'nearspot-store-finder-openstreetmap' )
 						/* translators: %s: the name this locator was given with the label attribute. */
-						: sprintf( __( '%s: map of locations', 'store-locator-for-openstreetmap' ), $attributes['label'] )
+						: sprintf( __( '%s: map of locations', 'nearspot-store-finder-openstreetmap' ), $attributes['label'] )
 				) . '"></div>';
 			// No aria-live. The status line above carries every sentence; a
 			// list that announced itself would read seven results out loud on
@@ -1024,7 +1024,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode' ) ) {
 					/* translators: %s: the wp_footer template tag. */
 					__(
 						'Store Locator: this locator was rendered after %s had already printed the page scripts, so its map cannot load. It has to be rendered earlier in the template.',
-						'store-locator-for-openstreetmap'
+						'nearspot-store-finder-openstreetmap'
 					),
 					'wp_footer()'
 				)
@@ -1061,7 +1061,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode' ) ) {
 					/* translators: %s: category slug, name or id as typed in the shortcode. */
 					__(
 						'Store Locator: no category matched %s, so this map is showing every location. Check the category slug, name or id in the shortcode.',
-						'store-locator-for-openstreetmap'
+						'nearspot-store-finder-openstreetmap'
 					),
 					$given
 				)
@@ -1098,14 +1098,14 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode' ) ) {
 			$html = '<div class="slosm__filters" role="search" aria-label="'
 				. esc_attr(
 					'' === $attributes['label']
-						? __( 'Find a location', 'store-locator-for-openstreetmap' )
+						? __( 'Find a location', 'nearspot-store-finder-openstreetmap' )
 						/* translators: %s: the name this locator was given with the label attribute. */
-						: sprintf( __( '%s: find a location', 'store-locator-for-openstreetmap' ), $attributes['label'] )
+						: sprintf( __( '%s: find a location', 'nearspot-store-finder-openstreetmap' ), $attributes['label'] )
 				) . '">';
 
 			$html .= '<label class="slosm__field slosm__field--search">'
 				. '<span class="slosm__field-label">'
-				. esc_html( __( 'Address, postcode or city', 'store-locator-for-openstreetmap' ) )
+				. esc_html( __( 'Address, postcode or city', 'nearspot-store-finder-openstreetmap' ) )
 				. '</span>'
 				. '<input type="search" class="slosm__search" value="' . esc_attr( $attributes['search'] ) . '"'
 				. ' maxlength="' . (int) self::MAX_SEARCH . '" enterkeyhint="search"'
@@ -1167,7 +1167,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode' ) ) {
 					_x(
 						'Search',
 						'submit button beside the locator address field',
-						'store-locator-for-openstreetmap'
+						'nearspot-store-finder-openstreetmap'
 					)
 				)
 				. '</button>';
@@ -1187,25 +1187,25 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode' ) ) {
 			 */
 			$html .= $this->field(
 				'radius',
-				_x( 'Within', 'label on the search-radius select', 'store-locator-for-openstreetmap' ),
+				_x( 'Within', 'label on the search-radius select', 'nearspot-store-finder-openstreetmap' ),
 				$this->radius_options( $attributes )
 			);
 
 			$html .= $this->field(
 				'limit',
-				_x( 'Show at most', 'label on the result-count select', 'store-locator-for-openstreetmap' ),
+				_x( 'Show at most', 'label on the result-count select', 'nearspot-store-finder-openstreetmap' ),
 				$this->limit_options( $attributes )
 			);
 
 			$html .= $this->field(
 				'category',
-				__( 'Category', 'store-locator-for-openstreetmap' ),
+				__( 'Category', 'nearspot-store-finder-openstreetmap' ),
 				$this->category_options( $attributes )
 			);
 
 			if ( $attributes['near_me'] ) {
 				$html .= '<button type="button" class="' . esc_attr( 'slosm__locate' . $button_class ) . '">'
-					. esc_html( __( 'Use my location', 'store-locator-for-openstreetmap' ) )
+					. esc_html( __( 'Use my location', 'nearspot-store-finder-openstreetmap' ) )
 					. '</button>';
 			}
 
@@ -1273,9 +1273,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode' ) ) {
 					'value'    => $number,
 					'label'    => 'mi' === $attributes['units']
 						/* translators: %s: a distance. */
-						? sprintf( __( '%s mi', 'store-locator-for-openstreetmap' ), $number )
+						? sprintf( __( '%s mi', 'nearspot-store-finder-openstreetmap' ), $number )
 						/* translators: %s: a distance. */
-						: sprintf( __( '%s km', 'store-locator-for-openstreetmap' ), $number ),
+						: sprintf( __( '%s km', 'nearspot-store-finder-openstreetmap' ), $number ),
 					'selected' => abs( $choice - $attributes['radius'] ) < 0.000001,
 				);
 			}
@@ -1305,7 +1305,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode' ) ) {
 				$options[] = array(
 					'value'    => (string) $count,
 					/* translators: %s: a number of results. */
-					'label'    => sprintf( _n( '%s result', '%s results', $count, 'store-locator-for-openstreetmap' ), (string) $count ),
+					'label'    => sprintf( _n( '%s result', '%s results', $count, 'nearspot-store-finder-openstreetmap' ), (string) $count ),
 					'selected' => $count === $attributes['limit'],
 				);
 			}
@@ -1341,7 +1341,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode' ) ) {
 			$options = array(
 				array(
 					'value'    => '',
-					'label'    => __( 'All categories', 'store-locator-for-openstreetmap' ),
+					'label'    => __( 'All categories', 'nearspot-store-finder-openstreetmap' ),
 					'selected' => '' === $attributes['category'],
 				),
 			);
@@ -1435,7 +1435,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode' ) ) {
 				// to somewhere ("Dojazd"), instructions ("Wskazówki") and
 				// compass bearings ("Kierunki") are all "directions" in
 				// English and all different words in Polish.
-				. esc_html( _x( 'Directions', 'link to route directions for one location', 'store-locator-for-openstreetmap' ) )
+				. esc_html( _x( 'Directions', 'link to route directions for one location', 'nearspot-store-finder-openstreetmap' ) )
 				. '</a>'
 				. '</li>'
 				. '</template>';

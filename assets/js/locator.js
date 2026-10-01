@@ -1,5 +1,5 @@
 /**
- * Store Locator for OpenStreetMap: the front end.
+ * Nearspot Store Finder for OpenStreetMap: the front end.
  *
  * A classic script, not a module, and that is a floor rather than a taste: the
  * plugin supports WordPress 6.0, which has no script-modules API, so `type`

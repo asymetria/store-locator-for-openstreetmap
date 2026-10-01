@@ -92,7 +92,7 @@ use Asymetria\StoreLocator\Store_Repository;
  */
 function slosm_uninstall_run(): void {
 	if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-		define( 'WP_UNINSTALL_PLUGIN', 'store-locator-for-openstreetmap/store-locator-for-openstreetmap.php' );
+		define( 'WP_UNINSTALL_PLUGIN', 'nearspot-store-finder-openstreetmap/nearspot-store-finder-openstreetmap.php' );
 	}
 
 	include dirname( __DIR__ ) . '/uninstall.php';
@@ -289,7 +289,7 @@ function slosm_uninstall_child( bool $define ): string {
 		. "} );\n";
 
 	if ( $define ) {
-		$child .= "define( 'WP_UNINSTALL_PLUGIN', 'store-locator-for-openstreetmap/store-locator-for-openstreetmap.php' );\n";
+		$child .= "define( 'WP_UNINSTALL_PLUGIN', 'nearspot-store-finder-openstreetmap/nearspot-store-finder-openstreetmap.php' );\n";
 	}
 
 	$child .= 'include ' . var_export( $root . '/uninstall.php', true ) . ";\n";

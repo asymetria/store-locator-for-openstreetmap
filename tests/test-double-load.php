@@ -54,7 +54,7 @@ describe(
 			'survives the plugin being loaded twice',
 			function () {
 				$root      = dirname( __DIR__ );
-				$plugin    = $root . '/store-locator-for-openstreetmap.php';
+				$plugin    = $root . '/nearspot-store-finder-openstreetmap.php';
 				$child     = sprintf(
 					'<?php' . "\n"
 					. 'set_error_handler( static function ( $errno, $message, $file, $line ) {' . "\n"
@@ -104,7 +104,7 @@ describe(
 					var_export( 'HOUR_IN_SECONDS', true ),
 					var_export( 'DAY_IN_SECONDS', true ),
 					var_export( '/', true ),
-					var_export( 'https://example.test/wp-content/plugins/store-locator-for-openstreetmap/', true ),
+					var_export( 'https://example.test/wp-content/plugins/nearspot-store-finder-openstreetmap/', true ),
 					var_export( $plugin, true ),
 					var_export( $plugin, true ),
 					var_export( $root . '/includes/class-autoloader.php', true ),

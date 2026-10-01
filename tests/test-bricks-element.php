@@ -297,7 +297,7 @@ describe(
 				// without it, a get_label() that ignored __() altogether --
 				// or a stub that never translated -- would satisfy the line
 				// above by returning something escaped for other reasons.
-				assert_same( '<b>Locator</b>', __( 'Store Locator', 'store-locator-for-openstreetmap' ) );
+				assert_same( '<b>Locator</b>', __( 'Store Locator', 'nearspot-store-finder-openstreetmap' ) );
 
 				// The second says the escaping is the only difference. With
 				// no translation installed the label is the English string

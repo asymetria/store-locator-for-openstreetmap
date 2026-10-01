@@ -1,4 +1,4 @@
-# Store Locator for OpenStreetMap
+# Nearspot Store Finder for OpenStreetMap
 
 A WordPress store locator built on [Leaflet](https://leafletjs.com/) and
 OpenStreetMap. No Google Maps API key, no billing account, no third-party map

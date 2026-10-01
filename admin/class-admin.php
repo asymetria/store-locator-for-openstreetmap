@@ -529,7 +529,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		public function add_meta_box( $post = null ): void {
 			add_meta_box(
 				self::META_BOX_ID,
-				__( 'Location', 'store-locator-for-openstreetmap' ),
+				__( 'Location', 'nearspot-store-finder-openstreetmap' ),
 				array( $this, 'render' ),
 				Post_Type::POST_TYPE,
 				'normal',
@@ -568,8 +568,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 
 			echo '<div class="slosm-metabox">';
 
-			$this->print_column( __( 'Address', 'store-locator-for-openstreetmap' ), self::ADDRESS_FIELDS, $record );
-			$this->print_column( __( 'Contact', 'store-locator-for-openstreetmap' ), self::CONTACT_FIELDS, $record );
+			$this->print_column( __( 'Address', 'nearspot-store-finder-openstreetmap' ), self::ADDRESS_FIELDS, $record );
+			$this->print_column( __( 'Contact', 'nearspot-store-finder-openstreetmap' ), self::CONTACT_FIELDS, $record );
 			$this->print_hours( $record );
 
 			echo '</div>';
@@ -968,7 +968,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				$coordinates = $was;
 
 				$messages[] = self::message(
-					__( 'A location needs both a latitude and a longitude, so the previous pair was kept. Empty both fields to look the address up again.', 'store-locator-for-openstreetmap' )
+					__( 'A location needs both a latitude and a longitude, so the previous pair was kept. Empty both fields to look the address up again.', 'nearspot-store-finder-openstreetmap' )
 				);
 			}
 
@@ -1042,7 +1042,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				self::message(
 					sprintf(
 						/* translators: %s: the address an editor typed. */
-						__( '“%s” is not an email address, so the email was left empty.', 'store-locator-for-openstreetmap' ),
+						__( '“%s” is not an email address, so the email was left empty.', 'nearspot-store-finder-openstreetmap' ),
 						$email
 					)
 				),
@@ -1250,15 +1250,15 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 */
 		private static function coordinate_message( string $field, array $parsed ): ?array {
 			$label = 'lat' === $field
-				? __( 'Latitude', 'store-locator-for-openstreetmap' )
-				: __( 'Longitude', 'store-locator-for-openstreetmap' );
+				? __( 'Latitude', 'nearspot-store-finder-openstreetmap' )
+				: __( 'Longitude', 'nearspot-store-finder-openstreetmap' );
 
 			$limit = 'lat' === $field ? self::LAT_LIMIT : self::LNG_LIMIT;
 
 			if ( 'normalised' === $parsed['status'] ) {
 				return self::message( sprintf(
 					/* translators: 1: field name, 2: the value an editor typed, 3: the value it was read as. */
-					__( '%1$s “%2$s” was read as %3$s. Use a dot for the decimal point.', 'store-locator-for-openstreetmap' ),
+					__( '%1$s “%2$s” was read as %3$s. Use a dot for the decimal point.', 'nearspot-store-finder-openstreetmap' ),
 					$label,
 					$parsed['typed'],
 					self::coordinate_string( (float) $parsed['value'] )
@@ -1268,7 +1268,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			if ( 'not_a_number' === $parsed['status'] ) {
 				return self::message( sprintf(
 					/* translators: 1: field name, 2: the value an editor typed. */
-					__( '%1$s “%2$s” is not a single number, so the previous value was kept.', 'store-locator-for-openstreetmap' ),
+					__( '%1$s “%2$s” is not a single number, so the previous value was kept.', 'nearspot-store-finder-openstreetmap' ),
 					$label,
 					$parsed['typed']
 				) );
@@ -1277,7 +1277,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			if ( 'out_of_range' === $parsed['status'] ) {
 				return self::message( sprintf(
 					/* translators: 1: field name, 2: the value an editor typed, 3: the largest value that is on the earth. */
-					__( '%1$s “%2$s” is outside −%3$s to %3$s, so the previous value was kept.', 'store-locator-for-openstreetmap' ),
+					__( '%1$s “%2$s” is outside −%3$s to %3$s, so the previous value was kept.', 'nearspot-store-finder-openstreetmap' ),
 					$label,
 					$parsed['typed'],
 					self::coordinate_string( $limit )
@@ -1339,7 +1339,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 					self::message(
 						sprintf(
 							/* translators: %s: the address an editor typed. */
-							__( '“%s” is not a web address this plugin will link to, so the website was left empty. Use http:// or https://.', 'store-locator-for-openstreetmap' ),
+							__( '“%s” is not a web address this plugin will link to, so the website was left empty. Use http:// or https://.', 'nearspot-store-finder-openstreetmap' ),
 							$typed
 						)
 					),
@@ -1463,7 +1463,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			if ( is_wp_error( $point ) ) {
 				$message = sprintf(
 					/* translators: %s: why the lookup failed. */
-					__( 'The address could not be looked up: %s', 'store-locator-for-openstreetmap' ),
+					__( 'The address could not be looked up: %s', 'nearspot-store-finder-openstreetmap' ),
 					$point->get_error_message()
 				);
 
@@ -1489,7 +1489,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			return self::message(
 				sprintf(
 					/* translators: 1: latitude, 2: longitude. */
-					__( 'Coordinates were looked up from the address: %1$s, %2$s.', 'store-locator-for-openstreetmap' ),
+					__( 'Coordinates were looked up from the address: %1$s, %2$s.', 'nearspot-store-finder-openstreetmap' ),
 					$lat,
 					$lng
 				),
@@ -1623,18 +1623,18 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 */
 		private static function label( string $field ): string {
 			$labels = array(
-				'address'  => __( 'Street address', 'store-locator-for-openstreetmap' ),
-				'address2' => __( 'Address line 2', 'store-locator-for-openstreetmap' ),
-				'city'     => __( 'City', 'store-locator-for-openstreetmap' ),
-				'state'    => __( 'Region', 'store-locator-for-openstreetmap' ),
-				'zip'      => __( 'Postal code', 'store-locator-for-openstreetmap' ),
-				'country'  => __( 'Country', 'store-locator-for-openstreetmap' ),
-				'phone'    => __( 'Phone', 'store-locator-for-openstreetmap' ),
-				'email'    => __( 'Email', 'store-locator-for-openstreetmap' ),
-				'url'      => __( 'Website', 'store-locator-for-openstreetmap' ),
-				'hours'    => __( 'Opening hours', 'store-locator-for-openstreetmap' ),
-				'lat'      => __( 'Latitude', 'store-locator-for-openstreetmap' ),
-				'lng'      => __( 'Longitude', 'store-locator-for-openstreetmap' ),
+				'address'  => __( 'Street address', 'nearspot-store-finder-openstreetmap' ),
+				'address2' => __( 'Address line 2', 'nearspot-store-finder-openstreetmap' ),
+				'city'     => __( 'City', 'nearspot-store-finder-openstreetmap' ),
+				'state'    => __( 'Region', 'nearspot-store-finder-openstreetmap' ),
+				'zip'      => __( 'Postal code', 'nearspot-store-finder-openstreetmap' ),
+				'country'  => __( 'Country', 'nearspot-store-finder-openstreetmap' ),
+				'phone'    => __( 'Phone', 'nearspot-store-finder-openstreetmap' ),
+				'email'    => __( 'Email', 'nearspot-store-finder-openstreetmap' ),
+				'url'      => __( 'Website', 'nearspot-store-finder-openstreetmap' ),
+				'hours'    => __( 'Opening hours', 'nearspot-store-finder-openstreetmap' ),
+				'lat'      => __( 'Latitude', 'nearspot-store-finder-openstreetmap' ),
+				'lng'      => __( 'Longitude', 'nearspot-store-finder-openstreetmap' ),
 			);
 
 			return $labels[ $field ] ?? $field;
@@ -1709,9 +1709,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			$name = self::FIELD_PREFIX . 'hours';
 
 			echo '<div class="slosm-metabox__column">';
-			echo '<h3 class="slosm-metabox__heading">' . esc_html( __( 'Opening hours', 'store-locator-for-openstreetmap' ) ) . '</h3>';
+			echo '<h3 class="slosm-metabox__heading">' . esc_html( __( 'Opening hours', 'nearspot-store-finder-openstreetmap' ) ) . '</h3>';
 			echo '<p class="slosm-metabox__field">';
-			echo '<label for="' . esc_attr( $name ) . '">' . esc_html( __( 'One line per day', 'store-locator-for-openstreetmap' ) ) . '</label>';
+			echo '<label for="' . esc_attr( $name ) . '">' . esc_html( __( 'One line per day', 'nearspot-store-finder-openstreetmap' ) ) . '</label>';
 			echo '<textarea class="widefat" rows="7" id="' . esc_attr( $name ) . '" name="' . esc_attr( $name ) . '">' . esc_textarea( self::text( $record, 'hours' ) ) . '</textarea>';
 			echo '</p>';
 			echo '</div>';
@@ -1732,7 +1732,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 */
 		private function print_coordinates( int $post_id, array $record ): void {
 			echo '<div class="slosm-metabox__coordinates">';
-			echo '<h3 class="slosm-metabox__heading">' . esc_html( __( 'Coordinates', 'store-locator-for-openstreetmap' ) ) . '</h3>';
+			echo '<h3 class="slosm-metabox__heading">' . esc_html( __( 'Coordinates', 'nearspot-store-finder-openstreetmap' ) ) . '</h3>';
 
 			foreach ( self::COORDINATE_FIELDS as $field ) {
 				$value = null === $record[ $field ] ? '' : self::coordinate_string( (float) $record[ $field ] );
@@ -1745,9 +1745,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			echo '<p class="description">';
 
 			if ( ! empty( $record['lat_locked'] ) ) {
-				echo esc_html( __( 'These coordinates were set by hand, so the address is not looked up again.', 'store-locator-for-openstreetmap' ) );
+				echo esc_html( __( 'These coordinates were set by hand, so the address is not looked up again.', 'nearspot-store-finder-openstreetmap' ) );
 			} else {
-				echo esc_html( __( 'Leave both empty to look the address up again. Use a dot for the decimal point.', 'store-locator-for-openstreetmap' ) );
+				echo esc_html( __( 'Leave both empty to look the address up again. Use a dot for the decimal point.', 'nearspot-store-finder-openstreetmap' ) );
 			}
 
 			echo '</p>';
@@ -1797,7 +1797,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 
 			echo '<p class="slosm-metabox__actions">';
 			echo '<button type="button" class="button slosm-metabox__lookup">'
-				. esc_html( __( 'Look up from the address', 'store-locator-for-openstreetmap' ) )
+				. esc_html( __( 'Look up from the address', 'nearspot-store-finder-openstreetmap' ) )
 				. '</button>';
 			echo '</p>';
 

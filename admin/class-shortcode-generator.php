@@ -281,8 +281,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode_Generator' ) ) {
 		public function add_page(): string {
 			return (string) add_submenu_page(
 				'edit.php?post_type=' . Post_Type::POST_TYPE,
-				__( 'Store Locator Shortcode', 'store-locator-for-openstreetmap' ),
-				__( 'Shortcode', 'store-locator-for-openstreetmap' ),
+				__( 'Store Locator Shortcode', 'nearspot-store-finder-openstreetmap' ),
+				__( 'Shortcode', 'nearspot-store-finder-openstreetmap' ),
 				self::CAPABILITY,
 				self::PAGE,
 				array( $this, 'render' )
@@ -325,103 +325,103 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode_Generator' ) ) {
 		 * @return array<string, array<string, mixed>>
 		 */
 		public static function controls(): array {
-			$inherit = __( 'Use the site setting', 'store-locator-for-openstreetmap' );
+			$inherit = __( 'Use the site setting', 'nearspot-store-finder-openstreetmap' );
 
 			$yes_no = array(
 				''    => $inherit,
-				'yes' => __( 'Yes', 'store-locator-for-openstreetmap' ),
-				'no'  => __( 'No', 'store-locator-for-openstreetmap' ),
+				'yes' => __( 'Yes', 'nearspot-store-finder-openstreetmap' ),
+				'no'  => __( 'No', 'nearspot-store-finder-openstreetmap' ),
 			);
 
 			return array(
 				'height'      => array(
 					'type'   => 'number',
-					'label'  => __( 'Map height', 'store-locator-for-openstreetmap' ),
-					'help'   => __( 'In pixels.', 'store-locator-for-openstreetmap' ),
+					'label'  => __( 'Map height', 'nearspot-store-finder-openstreetmap' ),
+					'help'   => __( 'In pixels.', 'nearspot-store-finder-openstreetmap' ),
 					'min'    => (string) Shortcode::MIN_HEIGHT,
 					'max'    => (string) Shortcode::MAX_HEIGHT,
 					'step'   => '1',
-					'suffix' => __( 'px', 'store-locator-for-openstreetmap' ),
+					'suffix' => __( 'px', 'nearspot-store-finder-openstreetmap' ),
 				),
 				'zoom'        => array(
 					'type'  => 'number',
-					'label' => __( 'Starting zoom', 'store-locator-for-openstreetmap' ),
-					'help'  => __( '1 is the whole world, 12 is a city, 16 is a street. A site whose tile server stops short of the number you type will be pulled back to where it stops.', 'store-locator-for-openstreetmap' ),
+					'label' => __( 'Starting zoom', 'nearspot-store-finder-openstreetmap' ),
+					'help'  => __( '1 is the whole world, 12 is a city, 16 is a street. A site whose tile server stops short of the number you type will be pulled back to where it stops.', 'nearspot-store-finder-openstreetmap' ),
 					'min'   => (string) Shortcode::MIN_ZOOM,
 					'max'   => (string) Shortcode::MAX_ZOOM,
 					'step'  => '1',
 				),
 				'lat'         => array(
 					'type'  => 'text',
-					'label' => __( 'Centre: latitude', 'store-locator-for-openstreetmap' ),
-					'help'  => __( 'Where this map opens before anybody searches. Fill both in or neither.', 'store-locator-for-openstreetmap' ),
+					'label' => __( 'Centre: latitude', 'nearspot-store-finder-openstreetmap' ),
+					'help'  => __( 'Where this map opens before anybody searches. Fill both in or neither.', 'nearspot-store-finder-openstreetmap' ),
 				),
 				'lng'         => array(
 					'type'  => 'text',
-					'label' => __( 'Centre: longitude', 'store-locator-for-openstreetmap' ),
+					'label' => __( 'Centre: longitude', 'nearspot-store-finder-openstreetmap' ),
 				),
 				'radius'      => array(
 					'type'  => 'number',
-					'label' => __( 'Starting radius', 'store-locator-for-openstreetmap' ),
-					'help'  => __( 'In whichever unit is chosen below.', 'store-locator-for-openstreetmap' ),
+					'label' => __( 'Starting radius', 'nearspot-store-finder-openstreetmap' ),
+					'help'  => __( 'In whichever unit is chosen below.', 'nearspot-store-finder-openstreetmap' ),
 					'min'   => '0',
 					'max'   => (string) Rest_Controller::MAX_RADIUS,
 					'step'  => 'any',
 				),
 				'limit'       => array(
 					'type'  => 'number',
-					'label' => __( 'Starting result count', 'store-locator-for-openstreetmap' ),
+					'label' => __( 'Starting result count', 'nearspot-store-finder-openstreetmap' ),
 					'min'   => '1',
 					'max'   => (string) Rest_Controller::MAX_LIMIT,
 					'step'  => '1',
 				),
 				'units'       => array(
 					'type'    => 'select',
-					'label'   => __( 'Distance in', 'store-locator-for-openstreetmap' ),
+					'label'   => __( 'Distance in', 'nearspot-store-finder-openstreetmap' ),
 					'choices' => self::choices(
 						Geo::UNITS,
 						array(
-							'km' => __( 'Kilometres', 'store-locator-for-openstreetmap' ),
-							'mi' => __( 'Miles', 'store-locator-for-openstreetmap' ),
+							'km' => __( 'Kilometres', 'nearspot-store-finder-openstreetmap' ),
+							'mi' => __( 'Miles', 'nearspot-store-finder-openstreetmap' ),
 						),
 						$inherit
 					),
 				),
 				'category'    => array(
 					'type'  => 'text',
-					'label' => __( 'Only this category', 'store-locator-for-openstreetmap' ),
-					'help'  => __( 'A category slug, name or id. Leave empty to show every location.', 'store-locator-for-openstreetmap' ),
+					'label' => __( 'Only this category', 'nearspot-store-finder-openstreetmap' ),
+					'help'  => __( 'A category slug, name or id. Leave empty to show every location.', 'nearspot-store-finder-openstreetmap' ),
 				),
 				'search'      => array(
 					'type'  => 'text',
-					'label' => __( 'Search this on load', 'store-locator-for-openstreetmap' ),
-					'help'  => __( 'An address or postcode the locator looks up as soon as the page opens.', 'store-locator-for-openstreetmap' ),
+					'label' => __( 'Search this on load', 'nearspot-store-finder-openstreetmap' ),
+					'help'  => __( 'An address or postcode the locator looks up as soon as the page opens.', 'nearspot-store-finder-openstreetmap' ),
 				),
 				'label'       => array(
 					'type'  => 'text',
-					'label' => __( 'Name for screen readers', 'store-locator-for-openstreetmap' ),
-					'help'  => __( 'Tells one locator from another when a page has two. It is not printed on the page.', 'store-locator-for-openstreetmap' ),
+					'label' => __( 'Name for screen readers', 'nearspot-store-finder-openstreetmap' ),
+					'help'  => __( 'Tells one locator from another when a page has two. It is not printed on the page.', 'nearspot-store-finder-openstreetmap' ),
 				),
 				'near_me'     => array(
 					'type'    => 'select',
-					'label'   => __( '“Use my location” button', 'store-locator-for-openstreetmap' ),
+					'label'   => __( '“Use my location” button', 'nearspot-store-finder-openstreetmap' ),
 					'choices' => $yes_no,
 				),
 				'auto_locate' => array(
 					'type'    => 'select',
-					'label'   => __( 'Ask for the visitor’s position on load', 'store-locator-for-openstreetmap' ),
-					'help'    => __( 'Off unless you say otherwise, on every site. The browser still asks the visitor first, and a permission prompt nobody triggered is a good way to be refused.', 'store-locator-for-openstreetmap' ),
+					'label'   => __( 'Ask for the visitor’s position on load', 'nearspot-store-finder-openstreetmap' ),
+					'help'    => __( 'Off unless you say otherwise, on every site. The browser still asks the visitor first, and a permission prompt nobody triggered is a good way to be refused.', 'nearspot-store-finder-openstreetmap' ),
 					'choices' => $yes_no,
 				),
 				'cluster'     => array(
 					'type'    => 'select',
-					'label'   => __( 'Group nearby pins', 'store-locator-for-openstreetmap' ),
+					'label'   => __( 'Group nearby pins', 'nearspot-store-finder-openstreetmap' ),
 					'choices' => self::choices(
 						Settings::CLUSTER_CHOICES,
 						array(
-							'auto' => __( 'Automatically', 'store-locator-for-openstreetmap' ),
-							'yes'  => __( 'Always', 'store-locator-for-openstreetmap' ),
-							'no'   => __( 'Never', 'store-locator-for-openstreetmap' ),
+							'auto' => __( 'Automatically', 'nearspot-store-finder-openstreetmap' ),
+							'yes'  => __( 'Always', 'nearspot-store-finder-openstreetmap' ),
+							'no'   => __( 'Never', 'nearspot-store-finder-openstreetmap' ),
 						),
 						$inherit
 					),
@@ -439,8 +439,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode_Generator' ) ) {
 				 */
 				'button_class' => array(
 					'type'  => 'text',
-					'label' => __( 'Extra class on the buttons', 'store-locator-for-openstreetmap' ),
-					'help'  => __( 'Added to the Search and “Use my location” buttons so they can take your theme’s own button styling. On Bricks that is bricks-button. Leave empty for the plugin’s own look.', 'store-locator-for-openstreetmap' ),
+					'label' => __( 'Extra class on the buttons', 'nearspot-store-finder-openstreetmap' ),
+					'help'  => __( 'Added to the Search and “Use my location” buttons so they can take your theme’s own button styling. On Bricks that is bricks-button. Leave empty for the plugin’s own look.', 'nearspot-store-finder-openstreetmap' ),
 				),
 			);
 		}
@@ -721,7 +721,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode_Generator' ) ) {
 		public function render(): void {
 			if ( ! current_user_can( self::CAPABILITY ) ) {
 				wp_die(
-					esc_html__( 'Sorry, you are not allowed to build shortcodes for this site.', 'store-locator-for-openstreetmap' ),
+					esc_html__( 'Sorry, you are not allowed to build shortcodes for this site.', 'nearspot-store-finder-openstreetmap' ),
 					'',
 					403
 				);
@@ -731,11 +731,11 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode_Generator' ) ) {
 			$tag    = $this->compose( $chosen );
 
 			echo '<div class="wrap slosm-shortcode">';
-			echo '<h1>' . esc_html( __( 'Store Locator Shortcode', 'store-locator-for-openstreetmap' ) ) . '</h1>';
+			echo '<h1>' . esc_html( __( 'Store Locator Shortcode', 'nearspot-store-finder-openstreetmap' ) ) . '</h1>';
 			echo '<p class="description">' . esc_html(
 				__(
 					'Fill in only what this locator should do differently from the site settings. Everything left empty stays with the settings, so changing them later changes this locator too.',
-					'store-locator-for-openstreetmap'
+					'nearspot-store-finder-openstreetmap'
 				)
 			) . '</p>';
 
@@ -792,9 +792,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode_Generator' ) ) {
 
 			echo '<p class="submit">'
 				. '<input type="submit" class="button button-primary" value="'
-				. esc_attr( __( 'Build the shortcode', 'store-locator-for-openstreetmap' ) ) . '" /> '
+				. esc_attr( __( 'Build the shortcode', 'nearspot-store-finder-openstreetmap' ) ) . '" /> '
 				. '<a class="button" href="' . esc_url( self::url() ) . '">'
-				. esc_html( __( 'Start again', 'store-locator-for-openstreetmap' ) ) . '</a>'
+				. esc_html( __( 'Start again', 'nearspot-store-finder-openstreetmap' ) ) . '</a>'
 				. '</p>';
 
 			echo '</form>';
@@ -864,11 +864,11 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode_Generator' ) ) {
 		 * @return void
 		 */
 		private function output( string $tag ): void {
-			echo '<h2>' . esc_html( __( 'Your shortcode', 'store-locator-for-openstreetmap' ) ) . '</h2>';
+			echo '<h2>' . esc_html( __( 'Your shortcode', 'nearspot-store-finder-openstreetmap' ) ) . '</h2>';
 
 			echo '<div class="slosm-shortcode__output">';
 			echo '<textarea class="slosm-shortcode__text large-text code" rows="2" readonly'
-				. ' aria-label="' . esc_attr( __( 'The generated shortcode', 'store-locator-for-openstreetmap' ) ) . '">'
+				. ' aria-label="' . esc_attr( __( 'The generated shortcode', 'nearspot-store-finder-openstreetmap' ) ) . '">'
 				. esc_textarea( $tag ) . '</textarea>';
 
 			// Printed empty and printed by PHP rather than by the script: a
@@ -880,7 +880,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode_Generator' ) ) {
 			echo '<p class="description">' . esc_html(
 				__(
 					'Paste it into a page, a post, or a shortcode block. Nothing you leave empty is written into it, so the site settings keep control of the rest.',
-					'store-locator-for-openstreetmap'
+					'nearspot-store-finder-openstreetmap'
 				)
 			) . '</p>';
 		}
@@ -894,11 +894,11 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode_Generator' ) ) {
 		private function preview_html( string $tag ): void {
 			$preview = $this->preview( $tag );
 
-			echo '<h2>' . esc_html( __( 'What this shortcode will do', 'store-locator-for-openstreetmap' ) ) . '</h2>';
+			echo '<h2>' . esc_html( __( 'What this shortcode will do', 'nearspot-store-finder-openstreetmap' ) ) . '</h2>';
 
 			if ( null === $preview ) {
 				echo '<div class="notice notice-error inline"><p>' . esc_html(
-					__( 'That shortcode could not be read back, so nothing below can be trusted. Please report this.', 'store-locator-for-openstreetmap' )
+					__( 'That shortcode could not be read back, so nothing below can be trusted. Please report this.', 'nearspot-store-finder-openstreetmap' )
 				) . '</p></div>';
 
 				return;
@@ -907,7 +907,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode_Generator' ) ) {
 			echo '<p class="description">' . esc_html(
 				__(
 					'This is not a picture of the map. It is the shortcode above, read back with the same code the front end uses, so what it says is what a visitor will get.',
-					'store-locator-for-openstreetmap'
+					'nearspot-store-finder-openstreetmap'
 				)
 			) . '</p>';
 
@@ -915,7 +915,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode_Generator' ) ) {
 				echo '<div class="notice notice-warning inline"><p>' . esc_html(
 					sprintf(
 						/* translators: %s: the category slug, name or id that was typed. */
-						__( 'No category matches “%s”, so this locator will show every location. Check the slug, name or id.', 'store-locator-for-openstreetmap' ),
+						__( 'No category matches “%s”, so this locator will show every location. Check the slug, name or id.', 'nearspot-store-finder-openstreetmap' ),
 						$preview['missing']
 					)
 				) . '</p></div>';
@@ -924,9 +924,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode_Generator' ) ) {
 			$this->sentences( $preview['config'] );
 
 			echo '<table class="widefat striped slosm-shortcode__preview"><thead><tr>';
-			echo '<th scope="col">' . esc_html( __( 'Setting', 'store-locator-for-openstreetmap' ) ) . '</th>';
-			echo '<th scope="col">' . esc_html( __( 'Value', 'store-locator-for-openstreetmap' ) ) . '</th>';
-			echo '<th scope="col">' . esc_html( __( 'Where it comes from', 'store-locator-for-openstreetmap' ) ) . '</th>';
+			echo '<th scope="col">' . esc_html( __( 'Setting', 'nearspot-store-finder-openstreetmap' ) ) . '</th>';
+			echo '<th scope="col">' . esc_html( __( 'Value', 'nearspot-store-finder-openstreetmap' ) ) . '</th>';
+			echo '<th scope="col">' . esc_html( __( 'Where it comes from', 'nearspot-store-finder-openstreetmap' ) ) . '</th>';
 			echo '</tr></thead><tbody>';
 
 			$controls = self::controls();
@@ -940,8 +940,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode_Generator' ) ) {
 				echo '<td><code>' . esc_html( self::readable( $row['value'] ) ) . '</code></td>';
 				echo '<td>' . esc_html(
 					$row['shortcode']
-						? __( 'This shortcode', 'store-locator-for-openstreetmap' )
-						: __( 'The site settings', 'store-locator-for-openstreetmap' )
+						? __( 'This shortcode', 'nearspot-store-finder-openstreetmap' )
+						: __( 'The site settings', 'nearspot-store-finder-openstreetmap' )
 				) . '</td></tr>';
 			}
 
@@ -969,7 +969,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode_Generator' ) ) {
 							'This site has %s published location, and the whole of it is sent with the page.',
 							'This site has %s published locations, and the whole of them are sent with the page.',
 							$count,
-							'store-locator-for-openstreetmap'
+							'nearspot-store-finder-openstreetmap'
 						),
 						number_format_i18n( $count )
 					)
@@ -979,13 +979,13 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode_Generator' ) ) {
 							'This site has %s published location, which is too many to send at once, so the locator asks the server as the visitor searches.',
 							'This site has %s published locations, which is too many to send at once, so the locator asks the server as the visitor searches.',
 							$count,
-							'store-locator-for-openstreetmap'
+							'nearspot-store-finder-openstreetmap'
 						),
 						number_format_i18n( $count )
 					),
 				( $config['cluster'] ?? false )
-					? __( 'Nearby pins are grouped into a numbered bubble.', 'store-locator-for-openstreetmap' )
-					: __( 'Every pin is drawn on its own.', 'store-locator-for-openstreetmap' ),
+					? __( 'Nearby pins are grouped into a numbered bubble.', 'nearspot-store-finder-openstreetmap' )
+					: __( 'Every pin is drawn on its own.', 'nearspot-store-finder-openstreetmap' ),
 			);
 
 			echo '<ul class="slosm-shortcode__summary">';
@@ -1010,8 +1010,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Shortcode_Generator' ) ) {
 		public static function readable( $value ): string {
 			if ( is_bool( $value ) ) {
 				return $value
-					? __( 'Yes', 'store-locator-for-openstreetmap' )
-					: __( 'No', 'store-locator-for-openstreetmap' );
+					? __( 'Yes', 'nearspot-store-finder-openstreetmap' )
+					: __( 'No', 'nearspot-store-finder-openstreetmap' );
 			}
 
 			if ( null === $value || '' === $value ) {

@@ -725,7 +725,7 @@ test( 'the fixture markup uses the class names the shortcode really emits', () =
 		'the select markup changed; the fixture still writes class="slosm__category"'
 	);
 	assert.ok(
-		source.includes( "__( 'Category', 'store-locator-for-openstreetmap' )" ),
+		source.includes( "__( 'Category', 'nearspot-store-finder-openstreetmap' )" ),
 		'the category select is no longer one of the fields'
 	);
 	assert.ok(

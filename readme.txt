@@ -1,10 +1,10 @@
-=== Store Locator for OpenStreetMap ===
+=== Nearspot Store Finder for OpenStreetMap ===
 Contributors: asymetria
 Tags: store locator, openstreetmap, leaflet, map, store finder
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -274,6 +274,11 @@ themselves are ordinary posts, and they go only if you asked for them to —
 see the question above.
 
 == Changelog ==
+
+= 1.0.2 =
+
+* Renamed, before the first release, to be distinguishable from the several
+  existing plugins whose names begin "Store Locator".
 
 = 1.0.1 =
 

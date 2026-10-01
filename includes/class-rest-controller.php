@@ -275,7 +275,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Rest_Controller' ) ) {
 								'type'              => 'integer',
 								'minimum'           => 1,
 								'required'          => true,
-								'description'       => __( 'Post id of the location.', 'store-locator-for-openstreetmap' ),
+								'description'       => __( 'Post id of the location.', 'nearspot-store-finder-openstreetmap' ),
 								'sanitize_callback' => 'absint',
 								'validate_callback' => 'rest_validate_request_arg',
 							),
@@ -294,7 +294,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Rest_Controller' ) ) {
 						'callback'            => array( $this, 'get_geocode' ),
 						'permission_callback' => '__return_true',
 						'args'                => $this->query_args(
-							__( 'Address to look up.', 'store-locator-for-openstreetmap' )
+							__( 'Address to look up.', 'nearspot-store-finder-openstreetmap' )
 						),
 					),
 					'schema' => array( $this, 'get_point_schema' ),
@@ -310,7 +310,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Rest_Controller' ) ) {
 						'callback'            => array( $this, 'get_suggest' ),
 						'permission_callback' => '__return_true',
 						'args'                => $this->query_args(
-							__( 'Whatever has been typed so far.', 'store-locator-for-openstreetmap' )
+							__( 'Whatever has been typed so far.', 'nearspot-store-finder-openstreetmap' )
 						),
 					),
 					'schema' => array( $this, 'get_suggestions_schema' ),
@@ -458,7 +458,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Rest_Controller' ) ) {
 				 */
 				return new \WP_Error(
 					'slosm_store_not_found',
-					__( 'No such location.', 'store-locator-for-openstreetmap' ),
+					__( 'No such location.', 'nearspot-store-finder-openstreetmap' ),
 					array( 'status' => 404 )
 				);
 			}
@@ -701,68 +701,68 @@ if ( ! class_exists( __NAMESPACE__ . '\\Rest_Controller' ) ) {
 				'properties' => array(
 					'id'          => array(
 						'type'        => 'integer',
-						'description' => __( 'Post id of the location.', 'store-locator-for-openstreetmap' ),
+						'description' => __( 'Post id of the location.', 'nearspot-store-finder-openstreetmap' ),
 					),
 					'name'        => array(
 						'type'        => 'string',
-						'description' => __( 'Location name.', 'store-locator-for-openstreetmap' ),
+						'description' => __( 'Location name.', 'nearspot-store-finder-openstreetmap' ),
 					),
 					'description' => array(
 						'type'        => 'string',
-						'description' => __( 'Description.', 'store-locator-for-openstreetmap' ),
+						'description' => __( 'Description.', 'nearspot-store-finder-openstreetmap' ),
 					),
 					'address'     => array(
 						'type'        => 'string',
-						'description' => __( 'Street address.', 'store-locator-for-openstreetmap' ),
+						'description' => __( 'Street address.', 'nearspot-store-finder-openstreetmap' ),
 					),
 					'address2'    => array(
 						'type'        => 'string',
-						'description' => __( 'Second address line.', 'store-locator-for-openstreetmap' ),
+						'description' => __( 'Second address line.', 'nearspot-store-finder-openstreetmap' ),
 					),
 					'city'        => array(
 						'type'        => 'string',
-						'description' => __( 'City.', 'store-locator-for-openstreetmap' ),
+						'description' => __( 'City.', 'nearspot-store-finder-openstreetmap' ),
 					),
 					'state'       => array(
 						'type'        => 'string',
-						'description' => __( 'State, region or voivodeship.', 'store-locator-for-openstreetmap' ),
+						'description' => __( 'State, region or voivodeship.', 'nearspot-store-finder-openstreetmap' ),
 					),
 					'zip'         => array(
 						'type'        => 'string',
-						'description' => __( 'Postal code.', 'store-locator-for-openstreetmap' ),
+						'description' => __( 'Postal code.', 'nearspot-store-finder-openstreetmap' ),
 					),
 					'country'     => array(
 						'type'        => 'string',
-						'description' => __( 'Country.', 'store-locator-for-openstreetmap' ),
+						'description' => __( 'Country.', 'nearspot-store-finder-openstreetmap' ),
 					),
 					'lat'         => array(
 						'type'        => array( 'number', 'null' ),
-						'description' => __( 'Latitude, or null when the location has not been placed.', 'store-locator-for-openstreetmap' ),
+						'description' => __( 'Latitude, or null when the location has not been placed.', 'nearspot-store-finder-openstreetmap' ),
 					),
 					'lng'         => array(
 						'type'        => array( 'number', 'null' ),
-						'description' => __( 'Longitude, or null when the location has not been placed.', 'store-locator-for-openstreetmap' ),
+						'description' => __( 'Longitude, or null when the location has not been placed.', 'nearspot-store-finder-openstreetmap' ),
 					),
 					'phone'       => array(
 						'type'        => 'string',
-						'description' => __( 'Phone number.', 'store-locator-for-openstreetmap' ),
+						'description' => __( 'Phone number.', 'nearspot-store-finder-openstreetmap' ),
 					),
 					'email'       => array(
 						'type'        => 'string',
-						'description' => __( 'Email address.', 'store-locator-for-openstreetmap' ),
+						'description' => __( 'Email address.', 'nearspot-store-finder-openstreetmap' ),
 					),
 					'url'         => array(
 						'type'        => 'string',
-						'description' => __( 'Website url.', 'store-locator-for-openstreetmap' ),
+						'description' => __( 'Website url.', 'nearspot-store-finder-openstreetmap' ),
 					),
 					'hours'       => array(
 						'type'        => 'string',
-						'description' => __( 'Opening hours, free text, newlines significant.', 'store-locator-for-openstreetmap' ),
+						'description' => __( 'Opening hours, free text, newlines significant.', 'nearspot-store-finder-openstreetmap' ),
 					),
 					'categories'  => array(
 						'type'        => 'array',
 						'items'       => array( 'type' => 'string' ),
-						'description' => __( 'Category names.', 'store-locator-for-openstreetmap' ),
+						'description' => __( 'Category names.', 'nearspot-store-finder-openstreetmap' ),
 					),
 				),
 			);
@@ -796,7 +796,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Rest_Controller' ) ) {
 						'categories' => $item['properties']['categories'],
 						'distance'   => array(
 							'type'        => array( 'number', 'null' ),
-							'description' => __( 'Distance from the point searched from, in the unit that search used; null when no point was given.', 'store-locator-for-openstreetmap' ),
+							'description' => __( 'Distance from the point searched from, in the unit that search used; null when no point was given.', 'nearspot-store-finder-openstreetmap' ),
 						),
 					),
 				),
@@ -822,15 +822,15 @@ if ( ! class_exists( __NAMESPACE__ . '\\Rest_Controller' ) ) {
 				'properties' => array(
 					'lat'   => array(
 						'type'        => 'number',
-						'description' => __( 'Latitude of the matched place.', 'store-locator-for-openstreetmap' ),
+						'description' => __( 'Latitude of the matched place.', 'nearspot-store-finder-openstreetmap' ),
 					),
 					'lng'   => array(
 						'type'        => 'number',
-						'description' => __( 'Longitude of the matched place.', 'store-locator-for-openstreetmap' ),
+						'description' => __( 'Longitude of the matched place.', 'nearspot-store-finder-openstreetmap' ),
 					),
 					'label' => array(
 						'type'        => 'string',
-						'description' => __( 'What the service calls the matched place, or the query when it gave no name.', 'store-locator-for-openstreetmap' ),
+						'description' => __( 'What the service calls the matched place, or the query when it gave no name.', 'nearspot-store-finder-openstreetmap' ),
 					),
 				),
 			);
@@ -857,7 +857,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Rest_Controller' ) ) {
 					'properties' => array(
 						'label' => array(
 							'type'        => 'string',
-							'description' => __( 'The line shown in the dropdown.', 'store-locator-for-openstreetmap' ),
+							'description' => __( 'The line shown in the dropdown.', 'nearspot-store-finder-openstreetmap' ),
 						),
 						'lat'   => $point['properties']['lat'],
 						'lng'   => $point['properties']['lng'],
@@ -882,7 +882,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Rest_Controller' ) ) {
 					'type'              => 'number',
 					'minimum'           => -90.0,
 					'maximum'           => 90.0,
-					'description'       => __( 'Latitude to search from.', 'store-locator-for-openstreetmap' ),
+					'description'       => __( 'Latitude to search from.', 'nearspot-store-finder-openstreetmap' ),
 					'sanitize_callback' => 'rest_sanitize_request_arg',
 					'validate_callback' => 'rest_validate_request_arg',
 				),
@@ -890,7 +890,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Rest_Controller' ) ) {
 					'type'              => 'number',
 					'minimum'           => -180.0,
 					'maximum'           => 180.0,
-					'description'       => __( 'Longitude to search from.', 'store-locator-for-openstreetmap' ),
+					'description'       => __( 'Longitude to search from.', 'nearspot-store-finder-openstreetmap' ),
 					'sanitize_callback' => 'rest_sanitize_request_arg',
 					'validate_callback' => 'rest_validate_request_arg',
 				),
@@ -899,7 +899,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Rest_Controller' ) ) {
 					'minimum'           => 0.0,
 					'maximum'           => self::MAX_RADIUS,
 					'default'           => self::DEFAULT_RADIUS,
-					'description'       => __( 'Search radius, in the requested unit.', 'store-locator-for-openstreetmap' ),
+					'description'       => __( 'Search radius, in the requested unit.', 'nearspot-store-finder-openstreetmap' ),
 					'sanitize_callback' => 'rest_sanitize_request_arg',
 					'validate_callback' => 'rest_validate_request_arg',
 				),
@@ -908,14 +908,14 @@ if ( ! class_exists( __NAMESPACE__ . '\\Rest_Controller' ) ) {
 					'minimum'           => 1,
 					'maximum'           => self::MAX_LIMIT,
 					'default'           => self::MAX_LIMIT,
-					'description'       => __( 'How many locations at most.', 'store-locator-for-openstreetmap' ),
+					'description'       => __( 'How many locations at most.', 'nearspot-store-finder-openstreetmap' ),
 					'sanitize_callback' => 'rest_sanitize_request_arg',
 					'validate_callback' => 'rest_validate_request_arg',
 				),
 				'category' => array(
 					'type'              => 'string',
 					'default'           => '',
-					'description'       => __( 'Category name to filter by.', 'store-locator-for-openstreetmap' ),
+					'description'       => __( 'Category name to filter by.', 'nearspot-store-finder-openstreetmap' ),
 					'sanitize_callback' => 'sanitize_text_field',
 					'validate_callback' => 'rest_validate_request_arg',
 				),
@@ -923,7 +923,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Rest_Controller' ) ) {
 					'type'              => 'string',
 					'enum'              => Geo::UNITS,
 					'default'           => 'km',
-					'description'       => __( 'Unit distances are measured in.', 'store-locator-for-openstreetmap' ),
+					'description'       => __( 'Unit distances are measured in.', 'nearspot-store-finder-openstreetmap' ),
 					'sanitize_callback' => 'sanitize_text_field',
 					'validate_callback' => 'rest_validate_request_arg',
 				),
@@ -957,7 +957,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Rest_Controller' ) ) {
 					'type'              => 'string',
 					'default'           => '',
 					'maxLength'         => 64,
-					'description'       => __( 'ISO 3166-1 alpha-2 country code, or several comma separated.', 'store-locator-for-openstreetmap' ),
+					'description'       => __( 'ISO 3166-1 alpha-2 country code, or several comma separated.', 'nearspot-store-finder-openstreetmap' ),
 					'sanitize_callback' => 'sanitize_text_field',
 					'validate_callback' => 'rest_validate_request_arg',
 				),
@@ -1110,18 +1110,18 @@ if ( ! class_exists( __NAMESPACE__ . '\\Rest_Controller' ) ) {
 		 */
 		private function message_for( int $status ): string {
 			if ( 400 === $status ) {
-				return __( 'There is no address to look up.', 'store-locator-for-openstreetmap' );
+				return __( 'There is no address to look up.', 'nearspot-store-finder-openstreetmap' );
 			}
 
 			if ( 404 === $status ) {
-				return __( 'No place matched that address.', 'store-locator-for-openstreetmap' );
+				return __( 'No place matched that address.', 'nearspot-store-finder-openstreetmap' );
 			}
 
 			if ( 429 === $status ) {
-				return __( 'The address service is asking for fewer requests. Try again in a moment.', 'store-locator-for-openstreetmap' );
+				return __( 'The address service is asking for fewer requests. Try again in a moment.', 'nearspot-store-finder-openstreetmap' );
 			}
 
-			return __( 'The address service could not answer. Try again later.', 'store-locator-for-openstreetmap' );
+			return __( 'The address service could not answer. Try again later.', 'nearspot-store-finder-openstreetmap' );
 		}
 
 		/**

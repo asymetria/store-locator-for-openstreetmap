@@ -1,5 +1,5 @@
 /**
- * Store Locator for OpenStreetMap: the map under the coordinate fields.
+ * Nearspot Store Finder for OpenStreetMap: the map under the coordinate fields.
  *
  * A classic script, like the front end and for the same reason: the floor is
  * WordPress 6.0, which has no script-modules API. Assets registers it with

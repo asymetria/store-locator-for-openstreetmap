@@ -1450,7 +1450,7 @@ describe(
 				$agent = (string) slosm_last_args()['headers']['User-Agent'];
 
 				assert_true( '' !== $agent, 'the User-Agent header was empty' );
-				assert_contains( 'Store Locator for OpenStreetMap', $agent );
+				assert_contains( 'Nearspot Store Finder for OpenStreetMap', $agent );
 				assert_contains( 'sklep.example.test', $agent );
 
 				// The version too, which this case could not assert until
@@ -1478,7 +1478,7 @@ describe(
 				$args = slosm_last_args();
 
 				assert_same( 1, slosm_requests() );
-				assert_contains( 'Store Locator for OpenStreetMap', (string) $args['user-agent'] );
+				assert_contains( 'Nearspot Store Finder for OpenStreetMap', (string) $args['user-agent'] );
 				assert_same( $args['headers']['User-Agent'], $args['user-agent'] );
 			}
 		);
@@ -1705,7 +1705,7 @@ describe(
 
 				slosm_geocoder()->geocode( 'Warszawa' );
 
-				assert_contains( 'Store Locator for OpenStreetMap', (string) slosm_last_args()['headers']['User-Agent'] );
+				assert_contains( 'Nearspot Store Finder for OpenStreetMap', (string) slosm_last_args()['headers']['User-Agent'] );
 			}
 		);
 

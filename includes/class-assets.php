@@ -606,7 +606,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Assets' ) ) {
 						/* translators: %s: the wp_footer template tag. */
 						esc_html__(
 							'A store locator was rendered after the footer scripts had already been printed, so its script and stylesheet cannot reach the page. Render [store_locator] before %s.',
-							'store-locator-for-openstreetmap'
+							'nearspot-store-finder-openstreetmap'
 						),
 						'wp_footer()'
 					),
@@ -928,9 +928,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Assets' ) ) {
 				 * "Kopia". A translator handed four letters and no context
 				 * has a one-in-two chance of putting a noun on a button.
 				 */
-				'copy'   => _x( 'Copy', 'button that copies the generated shortcode', 'store-locator-for-openstreetmap' ),
-				'copied' => __( 'Copied.', 'store-locator-for-openstreetmap' ),
-				'manual' => __( 'It is selected — press Ctrl+C, or ⌘C on a Mac, to copy it.', 'store-locator-for-openstreetmap' ),
+				'copy'   => _x( 'Copy', 'button that copies the generated shortcode', 'nearspot-store-finder-openstreetmap' ),
+				'copied' => __( 'Copied.', 'nearspot-store-finder-openstreetmap' ),
+				'manual' => __( 'It is selected — press Ctrl+C, or ⌘C on a Mac, to copy it.', 'nearspot-store-finder-openstreetmap' ),
 			);
 		}
 
@@ -965,25 +965,25 @@ if ( ! class_exists( __NAMESPACE__ . '\\Assets' ) ) {
 		 */
 		public function admin_strings(): array {
 			return array(
-				'configError'     => __( 'This map could not start: its settings are missing or unreadable.', 'store-locator-for-openstreetmap' ),
-				'mapFailed'       => __( 'The map could not be started, so the coordinates have to be typed by hand.', 'store-locator-for-openstreetmap' ),
-				'markerTitle'     => __( 'Drag this pin to move the location', 'store-locator-for-openstreetmap' ),
-				'pairNeeded'      => __( 'A location needs both a latitude and a longitude, so the previous pair will be kept.', 'store-locator-for-openstreetmap' ),
-				'willLookUp'      => __( 'Both coordinates are empty, so the address will be looked up when this is saved.', 'store-locator-for-openstreetmap' ),
+				'configError'     => __( 'This map could not start: its settings are missing or unreadable.', 'nearspot-store-finder-openstreetmap' ),
+				'mapFailed'       => __( 'The map could not be started, so the coordinates have to be typed by hand.', 'nearspot-store-finder-openstreetmap' ),
+				'markerTitle'     => __( 'Drag this pin to move the location', 'nearspot-store-finder-openstreetmap' ),
+				'pairNeeded'      => __( 'A location needs both a latitude and a longitude, so the previous pair will be kept.', 'nearspot-store-finder-openstreetmap' ),
+				'willLookUp'      => __( 'Both coordinates are empty, so the address will be looked up when this is saved.', 'nearspot-store-finder-openstreetmap' ),
 				/* translators: 1: field name, 2: the value an editor typed, 3: the value it will be read as. */
-				'comma'           => __( '%1$s “%2$s” will be read as %3$s. Use a dot for the decimal point.', 'store-locator-for-openstreetmap' ),
+				'comma'           => __( '%1$s “%2$s” will be read as %3$s. Use a dot for the decimal point.', 'nearspot-store-finder-openstreetmap' ),
 				/* translators: 1: field name, 2: the value an editor typed. */
-				'notANumber'      => __( '%1$s “%2$s” is not a single number, so the previous value will be kept.', 'store-locator-for-openstreetmap' ),
+				'notANumber'      => __( '%1$s “%2$s” is not a single number, so the previous value will be kept.', 'nearspot-store-finder-openstreetmap' ),
 				/* translators: 1: field name, 2: the value an editor typed, 3: the largest value that is on the earth. */
-				'outOfRange'      => __( '%1$s “%2$s” is outside −%3$s to %3$s, so the previous value will be kept.', 'store-locator-for-openstreetmap' ),
-				'latitude'        => __( 'Latitude', 'store-locator-for-openstreetmap' ),
-				'longitude'       => __( 'Longitude', 'store-locator-for-openstreetmap' ),
-				'looking'         => __( 'Looking the address up…', 'store-locator-for-openstreetmap' ),
-				'lookupNoAddress' => __( 'Fill in the address first, then look it up.', 'store-locator-for-openstreetmap' ),
-				'lookupDone'      => __( 'The address was found, so these coordinates will be looked up again if the address changes.', 'store-locator-for-openstreetmap' ),
-				'lookupNoMatch'   => __( 'No place matched that address.', 'store-locator-for-openstreetmap' ),
-				'lookupBusy'      => __( 'The address lookup is busy right now. Try again in a moment.', 'store-locator-for-openstreetmap' ),
-				'lookupFailed'    => __( 'That address could not be looked up right now.', 'store-locator-for-openstreetmap' ),
+				'outOfRange'      => __( '%1$s “%2$s” is outside −%3$s to %3$s, so the previous value will be kept.', 'nearspot-store-finder-openstreetmap' ),
+				'latitude'        => __( 'Latitude', 'nearspot-store-finder-openstreetmap' ),
+				'longitude'       => __( 'Longitude', 'nearspot-store-finder-openstreetmap' ),
+				'looking'         => __( 'Looking the address up…', 'nearspot-store-finder-openstreetmap' ),
+				'lookupNoAddress' => __( 'Fill in the address first, then look it up.', 'nearspot-store-finder-openstreetmap' ),
+				'lookupDone'      => __( 'The address was found, so these coordinates will be looked up again if the address changes.', 'nearspot-store-finder-openstreetmap' ),
+				'lookupNoMatch'   => __( 'No place matched that address.', 'nearspot-store-finder-openstreetmap' ),
+				'lookupBusy'      => __( 'The address lookup is busy right now. Try again in a moment.', 'nearspot-store-finder-openstreetmap' ),
+				'lookupFailed'    => __( 'That address could not be looked up right now.', 'nearspot-store-finder-openstreetmap' ),
 			);
 		}
 
@@ -1135,7 +1135,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Assets' ) ) {
 		 */
 		public function strings(): array {
 			return array(
-				'noResults'           => __( 'No results', 'store-locator-for-openstreetmap' ),
+				'noResults'           => __( 'No results', 'nearspot-store-finder-openstreetmap' ),
 				/*
 				 * Written over the one Leaflet hardcodes. `_initLayout` does
 				 * `i.setAttribute("aria-label","Close popup")` in English, with no
@@ -1143,7 +1143,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Assets' ) ) {
 				 * way a Polish site's map says "zamknij" is this plugin replacing
 				 * the attribute once the popup exists. wirePopup() does it.
 				 */
-				'closePopup'          => __( 'Close popup', 'store-locator-for-openstreetmap' ),
+				'closePopup'          => __( 'Close popup', 'nearspot-store-finder-openstreetmap' ),
 				/*
 				 * Said after every draw a person asked for: a search, "use my
 				 * location", a radius or result-count change. It replaces Task
@@ -1177,21 +1177,21 @@ if ( ! class_exists( __NAMESPACE__ . '\\Assets' ) ) {
 				 * because that is what it is.
 				 */
 				/* translators: %s: how many locations the search found. */
-				'resultsFound'        => _x( 'Locations found: %s', 'result count announced after a search', 'store-locator-for-openstreetmap' ),
-				'searching'           => __( 'Searching…', 'store-locator-for-openstreetmap' ),
-				'locating'            => __( 'Finding your location…', 'store-locator-for-openstreetmap' ),
-				'locationDenied'      => __( 'No location shared. Search for an address instead.', 'store-locator-for-openstreetmap' ),
-				'locationFailed'      => __( 'Your location could not be worked out. Search for an address instead.', 'store-locator-for-openstreetmap' ),
-				'locationUnsupported' => __( 'This browser cannot share a location. Search for an address instead.', 'store-locator-for-openstreetmap' ),
-				'loadFailed'          => __( 'The locations could not be loaded.', 'store-locator-for-openstreetmap' ),
-				'configError'         => __( 'This map could not start: its settings are missing or unreadable.', 'store-locator-for-openstreetmap' ),
-				'searchNoMatch'       => __( 'No place matched that search.', 'store-locator-for-openstreetmap' ),
-				'searchBusy'          => __( 'The address lookup is busy right now. Try again in a moment.', 'store-locator-for-openstreetmap' ),
-				'searchFailed'        => __( 'That address could not be looked up right now.', 'store-locator-for-openstreetmap' ),
+				'resultsFound'        => _x( 'Locations found: %s', 'result count announced after a search', 'nearspot-store-finder-openstreetmap' ),
+				'searching'           => __( 'Searching…', 'nearspot-store-finder-openstreetmap' ),
+				'locating'            => __( 'Finding your location…', 'nearspot-store-finder-openstreetmap' ),
+				'locationDenied'      => __( 'No location shared. Search for an address instead.', 'nearspot-store-finder-openstreetmap' ),
+				'locationFailed'      => __( 'Your location could not be worked out. Search for an address instead.', 'nearspot-store-finder-openstreetmap' ),
+				'locationUnsupported' => __( 'This browser cannot share a location. Search for an address instead.', 'nearspot-store-finder-openstreetmap' ),
+				'loadFailed'          => __( 'The locations could not be loaded.', 'nearspot-store-finder-openstreetmap' ),
+				'configError'         => __( 'This map could not start: its settings are missing or unreadable.', 'nearspot-store-finder-openstreetmap' ),
+				'searchNoMatch'       => __( 'No place matched that search.', 'nearspot-store-finder-openstreetmap' ),
+				'searchBusy'          => __( 'The address lookup is busy right now. Try again in a moment.', 'nearspot-store-finder-openstreetmap' ),
+				'searchFailed'        => __( 'That address could not be looked up right now.', 'nearspot-store-finder-openstreetmap' ),
 				/* translators: %s: a distance, already formatted as a number. */
-				'distanceKm'          => __( '%s km', 'store-locator-for-openstreetmap' ),
+				'distanceKm'          => __( '%s km', 'nearspot-store-finder-openstreetmap' ),
 				/* translators: %s: a distance, already formatted as a number. */
-				'distanceMi'          => __( '%s mi', 'store-locator-for-openstreetmap' ),
+				'distanceMi'          => __( '%s mi', 'nearspot-store-finder-openstreetmap' ),
 				/*
 				 * The same word Shortcode::row_template() puts on the row's own
 				 * anchor, and deliberately the same argument rather than a
@@ -1208,7 +1208,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Assets' ) ) {
 				 * three different words in Polish depending on whether it means
 				 * a route, instructions or compass bearings.
 				 */
-				'directions'          => _x( 'Directions', 'link to route directions for one location', 'store-locator-for-openstreetmap' ),
+				'directions'          => _x( 'Directions', 'link to route directions for one location', 'nearspot-store-finder-openstreetmap' ),
 			);
 		}
 

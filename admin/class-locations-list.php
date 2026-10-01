@@ -339,9 +339,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Locations_List' ) ) {
 			}
 
 			$mine = array(
-				self::COLUMN_PLACEMENT => __( 'On the map', 'store-locator-for-openstreetmap' ),
-				self::COLUMN_ADDRESS   => __( 'Address', 'store-locator-for-openstreetmap' ),
-				self::COLUMN_CITY      => __( 'City', 'store-locator-for-openstreetmap' ),
+				self::COLUMN_PLACEMENT => __( 'On the map', 'nearspot-store-finder-openstreetmap' ),
+				self::COLUMN_ADDRESS   => __( 'Address', 'nearspot-store-finder-openstreetmap' ),
+				self::COLUMN_CITY      => __( 'City', 'nearspot-store-finder-openstreetmap' ),
 			);
 
 			$tail = array();
@@ -507,7 +507,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Locations_List' ) ) {
 				'<a href="%s"%s>%s</a>',
 				esc_url( $url ),
 				self::unplaced_requested() ? ' class="current" aria-current="page"' : '',
-				esc_html( __( 'Not on the map', 'store-locator-for-openstreetmap' ) )
+				esc_html( __( 'Not on the map', 'nearspot-store-finder-openstreetmap' ) )
 			);
 
 			return $views;
@@ -720,7 +720,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Locations_List' ) ) {
 
 			echo '<strong class="slosm-list__unplaced">'
 				. '<span class="dashicons dashicons-warning" aria-hidden="true"></span> '
-				. esc_html( __( 'Not on the map', 'store-locator-for-openstreetmap' ) )
+				. esc_html( __( 'Not on the map', 'nearspot-store-finder-openstreetmap' ) )
 				. '</strong>';
 		}
 

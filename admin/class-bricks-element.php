@@ -408,7 +408,7 @@ if ( class_exists( '\\Bricks\\Element' ) && ! class_exists( __NAMESPACE__ . '\\B
 		 * @return string
 		 */
 		public function get_label(): string {
-			return esc_html__( 'Store Locator', 'store-locator-for-openstreetmap' );
+			return esc_html__( 'Store Locator', 'nearspot-store-finder-openstreetmap' );
 		}
 
 		/**
@@ -560,7 +560,7 @@ if ( class_exists( '\\Bricks\\Element' ) && ! class_exists( __NAMESPACE__ . '\\B
 					'type'    => 'info',
 					'content' => sprintf(
 						/* translators: %s: the name of a setting. */
-						esc_html__( '%s cannot be set here yet. Use the shortcode.', 'store-locator-for-openstreetmap' ),
+						esc_html__( '%s cannot be set here yet. Use the shortcode.', 'nearspot-store-finder-openstreetmap' ),
 						esc_html( $label )
 					),
 				);

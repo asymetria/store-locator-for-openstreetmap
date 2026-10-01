@@ -175,8 +175,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Settings_Screen' ) ) {
 		public function add_page(): string {
 			return (string) add_submenu_page(
 				'edit.php?post_type=' . Post_Type::POST_TYPE,
-				__( 'Store Locator Settings', 'store-locator-for-openstreetmap' ),
-				__( 'Settings', 'store-locator-for-openstreetmap' ),
+				__( 'Store Locator Settings', 'nearspot-store-finder-openstreetmap' ),
+				__( 'Settings', 'nearspot-store-finder-openstreetmap' ),
 				self::CAPABILITY,
 				Settings::PAGE,
 				array( $this, 'render' )
@@ -256,10 +256,10 @@ if ( ! class_exists( __NAMESPACE__ . '\\Settings_Screen' ) ) {
 		 */
 		public function render_section( array $section ): void {
 			$intros = array(
-				'slosm-section-map'      => __( 'The map every locator on this site starts from. A shortcode can still overrule any of it.', 'store-locator-for-openstreetmap' ),
-				'slosm-section-search'   => __( 'What a visitor can search by, and what the controls offer.', 'store-locator-for-openstreetmap' ),
-				'slosm-section-results'  => __( 'What a visitor is shown once a search has found something.', 'store-locator-for-openstreetmap' ),
-				'slosm-section-advanced' => __( 'Whether the plugin brings its own styling, where geocoding goes, and how long its answers are kept. Leave the two endpoints empty unless you run your own service.', 'store-locator-for-openstreetmap' ),
+				'slosm-section-map'      => __( 'The map every locator on this site starts from. A shortcode can still overrule any of it.', 'nearspot-store-finder-openstreetmap' ),
+				'slosm-section-search'   => __( 'What a visitor can search by, and what the controls offer.', 'nearspot-store-finder-openstreetmap' ),
+				'slosm-section-results'  => __( 'What a visitor is shown once a search has found something.', 'nearspot-store-finder-openstreetmap' ),
+				'slosm-section-advanced' => __( 'Whether the plugin brings its own styling, where geocoding goes, and how long its answers are kept. Leave the two endpoints empty unless you run your own service.', 'nearspot-store-finder-openstreetmap' ),
 			);
 
 			$id = isset( $section['id'] ) && is_scalar( $section['id'] ) ? (string) $section['id'] : '';
@@ -292,7 +292,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Settings_Screen' ) ) {
 				// default 500 — and that is the branch core's own
 				// `wp_die( $message, 403 )` calls in options.php rely on.
 				wp_die(
-					esc_html__( 'Sorry, you are not allowed to manage settings for this site.', 'store-locator-for-openstreetmap' ),
+					esc_html__( 'Sorry, you are not allowed to manage settings for this site.', 'nearspot-store-finder-openstreetmap' ),
 					'',
 					403
 				);
@@ -301,7 +301,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Settings_Screen' ) ) {
 			$tab = self::current_tab();
 
 			echo '<div class="wrap slosm-settings">';
-			echo '<h1>' . esc_html( __( 'Store Locator Settings', 'store-locator-for-openstreetmap' ) ) . '</h1>';
+			echo '<h1>' . esc_html( __( 'Store Locator Settings', 'nearspot-store-finder-openstreetmap' ) ) . '</h1>';
 
 			$this->notices();
 			$this->tabs( $tab );
@@ -317,7 +317,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Settings_Screen' ) ) {
 			// fewer function whose defaults have to be known to read this.
 			echo '<p class="submit">'
 				. '<input type="submit" name="submit" id="submit" class="button button-primary" value="'
-				. esc_attr( __( 'Save Changes', 'store-locator-for-openstreetmap' ) ) . '" />'
+				. esc_attr( __( 'Save Changes', 'nearspot-store-finder-openstreetmap' ) ) . '" />'
 				. '</p>';
 
 			echo '</form>';
@@ -381,7 +381,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Settings_Screen' ) ) {
 
 			if ( ! wp_verify_nonce( $nonce, self::CLEAR_ACTION ) || ! current_user_can( self::CAPABILITY ) ) {
 				wp_die(
-					esc_html__( 'Sorry, you are not allowed to clear this cache.', 'store-locator-for-openstreetmap' ),
+					esc_html__( 'Sorry, you are not allowed to clear this cache.', 'nearspot-store-finder-openstreetmap' ),
 					'',
 					403
 				);
@@ -648,14 +648,14 @@ if ( ! class_exists( __NAMESPACE__ . '\\Settings_Screen' ) ) {
 		 */
 		private function tabs( string $current ): void {
 			$labels = array(
-				'map'      => _x( 'Map', 'settings screen tab', 'store-locator-for-openstreetmap' ),
-				'search'   => _x( 'Search', 'settings screen tab', 'store-locator-for-openstreetmap' ),
-				'results'  => _x( 'Results', 'settings screen tab', 'store-locator-for-openstreetmap' ),
-				'advanced' => _x( 'Advanced', 'settings screen tab', 'store-locator-for-openstreetmap' ),
+				'map'      => _x( 'Map', 'settings screen tab', 'nearspot-store-finder-openstreetmap' ),
+				'search'   => _x( 'Search', 'settings screen tab', 'nearspot-store-finder-openstreetmap' ),
+				'results'  => _x( 'Results', 'settings screen tab', 'nearspot-store-finder-openstreetmap' ),
+				'advanced' => _x( 'Advanced', 'settings screen tab', 'nearspot-store-finder-openstreetmap' ),
 			);
 
 			echo '<nav class="nav-tab-wrapper" aria-label="'
-				. esc_attr( __( 'Settings sections', 'store-locator-for-openstreetmap' ) ) . '">';
+				. esc_attr( __( 'Settings sections', 'nearspot-store-finder-openstreetmap' ) ) . '">';
 
 			foreach ( array_keys( Settings::TABS ) as $tab ) {
 				$is_current = $tab === $current;
@@ -698,13 +698,13 @@ if ( ! class_exists( __NAMESPACE__ . '\\Settings_Screen' ) ) {
 		private function notices(): void {
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- reading which message to print after core's own redirect; nothing is written.
 			if ( isset( $_GET['settings-updated'] ) ) {
-				$this->notice( __( 'Settings saved.', 'store-locator-for-openstreetmap' ) );
+				$this->notice( __( 'Settings saved.', 'nearspot-store-finder-openstreetmap' ) );
 			}
 
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- reading which message to print after this screen's own redirect; nothing is written.
 			if ( isset( $_GET[ self::CLEARED_ARG ] ) ) {
 				$this->notice(
-					__( 'The caches were cleared. Maps and address lookups will be rebuilt as they are asked for.', 'store-locator-for-openstreetmap' )
+					__( 'The caches were cleared. Maps and address lookups will be rebuilt as they are asked for.', 'nearspot-store-finder-openstreetmap' )
 				);
 			}
 		}
@@ -731,11 +731,11 @@ if ( ! class_exists( __NAMESPACE__ . '\\Settings_Screen' ) ) {
 		 * @return void
 		 */
 		private function clear_cache_form(): void {
-			echo '<h2>' . esc_html( __( 'Caches', 'store-locator-for-openstreetmap' ) ) . '</h2>';
+			echo '<h2>' . esc_html( __( 'Caches', 'nearspot-store-finder-openstreetmap' ) ) . '</h2>';
 			echo '<p class="description">' . esc_html(
 				__(
 					'Clears the map payload and the stored address lookups, including addresses that failed. Use this after correcting an address somewhere else. Nothing about your locations is deleted.',
-					'store-locator-for-openstreetmap'
+					'nearspot-store-finder-openstreetmap'
 				)
 			) . '</p>';
 
@@ -745,7 +745,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Settings_Screen' ) ) {
 			wp_nonce_field( self::CLEAR_ACTION, self::NONCE_FIELD );
 
 			echo '<p><input type="submit" class="button" value="'
-				. esc_attr( __( 'Clear caches', 'store-locator-for-openstreetmap' ) ) . '" /></p>';
+				. esc_attr( __( 'Clear caches', 'nearspot-store-finder-openstreetmap' ) ) . '" /></p>';
 			echo '</form>';
 		}
 
@@ -898,95 +898,95 @@ if ( ! class_exists( __NAMESPACE__ . '\\Settings_Screen' ) ) {
 		 */
 		private static function controls(): array {
 			$units = array(
-				'km' => __( 'Kilometres', 'store-locator-for-openstreetmap' ),
-				'mi' => __( 'Miles', 'store-locator-for-openstreetmap' ),
+				'km' => __( 'Kilometres', 'nearspot-store-finder-openstreetmap' ),
+				'mi' => __( 'Miles', 'nearspot-store-finder-openstreetmap' ),
 			);
 
 			return array(
 				'tile_url'             => array(
 					'type'       => 'url',
-					'label'      => __( 'Tile URL', 'store-locator-for-openstreetmap' ),
-					'help'       => __( 'Where the map images come from; it must contain {z}, {x} and {y}, which is how a tile server is told which square to send.', 'store-locator-for-openstreetmap' ),
+					'label'      => __( 'Tile URL', 'nearspot-store-finder-openstreetmap' ),
+					'help'       => __( 'Where the map images come from; it must contain {z}, {x} and {y}, which is how a tile server is told which square to send.', 'nearspot-store-finder-openstreetmap' ),
 					'class'      => 'large-text code',
 				),
 				'tile_attribution'     => array(
-					'label' => __( 'Attribution', 'store-locator-for-openstreetmap' ),
-					'help'  => __( 'The credit line under the map, which almost every tile provider requires you to show.', 'store-locator-for-openstreetmap' ),
+					'label' => __( 'Attribution', 'nearspot-store-finder-openstreetmap' ),
+					'help'  => __( 'The credit line under the map, which almost every tile provider requires you to show.', 'nearspot-store-finder-openstreetmap' ),
 					'class' => 'large-text',
 				),
 				'tile_attribution_url' => array(
 					'type'  => 'url',
-					'label' => __( 'Attribution link', 'store-locator-for-openstreetmap' ),
-					'help'  => __( 'The licence page that credit line points at; leave it empty for plain text.', 'store-locator-for-openstreetmap' ),
+					'label' => __( 'Attribution link', 'nearspot-store-finder-openstreetmap' ),
+					'help'  => __( 'The licence page that credit line points at; leave it empty for plain text.', 'nearspot-store-finder-openstreetmap' ),
 					'class' => 'large-text code',
 				),
 				'tile_max_zoom'        => array(
 					'type'       => 'number',
-					'label'      => __( 'Closest zoom', 'store-locator-for-openstreetmap' ),
-					'help'       => __( 'How far in this tile provider draws; go past it and every tile comes back missing.', 'store-locator-for-openstreetmap' ),
+					'label'      => __( 'Closest zoom', 'nearspot-store-finder-openstreetmap' ),
+					'help'       => __( 'How far in this tile provider draws; go past it and every tile comes back missing.', 'nearspot-store-finder-openstreetmap' ),
 					'class'      => 'small-text',
 					'attributes' => array( 'min' => (int) Shortcode::MIN_ZOOM, 'max' => (int) Shortcode::MAX_ZOOM, 'step' => 1 ),
 				),
 				'default_lat'          => array(
 					'type'       => 'text',
-					'label'      => __( 'Default centre: latitude', 'store-locator-for-openstreetmap' ),
-					'help'       => __( 'Where a map opens before anybody searches; leave both empty to frame it around your locations instead.', 'store-locator-for-openstreetmap' ),
+					'label'      => __( 'Default centre: latitude', 'nearspot-store-finder-openstreetmap' ),
+					'help'       => __( 'Where a map opens before anybody searches; leave both empty to frame it around your locations instead.', 'nearspot-store-finder-openstreetmap' ),
 					'class'      => 'small-text',
 				),
 				'default_lng'          => array(
 					'type'  => 'text',
-					'label' => __( 'Default centre: longitude', 'store-locator-for-openstreetmap' ),
+					'label' => __( 'Default centre: longitude', 'nearspot-store-finder-openstreetmap' ),
 					'class' => 'small-text',
 				),
 				'default_zoom'         => array(
 					'type'       => 'number',
-					'label'      => __( 'Default zoom', 'store-locator-for-openstreetmap' ),
-					'help'       => __( 'How close a map starts: 1 is the whole world, 12 is a city, 16 is a street.', 'store-locator-for-openstreetmap' ),
+					'label'      => __( 'Default zoom', 'nearspot-store-finder-openstreetmap' ),
+					'help'       => __( 'How close a map starts: 1 is the whole world, 12 is a city, 16 is a street.', 'nearspot-store-finder-openstreetmap' ),
 					'class'      => 'small-text',
 					'attributes' => array( 'min' => (int) Shortcode::MIN_ZOOM, 'max' => (int) Shortcode::MAX_ZOOM, 'step' => 1 ),
 				),
 				'map_height'           => array(
 					'type'       => 'number',
-					'label'      => __( 'Map height', 'store-locator-for-openstreetmap' ),
-					'help'       => __( 'How tall the map is, in pixels.', 'store-locator-for-openstreetmap' ),
+					'label'      => __( 'Map height', 'nearspot-store-finder-openstreetmap' ),
+					'help'       => __( 'How tall the map is, in pixels.', 'nearspot-store-finder-openstreetmap' ),
 					'class'      => 'small-text',
 					'attributes' => array( 'min' => (int) Shortcode::MIN_HEIGHT, 'max' => (int) Shortcode::MAX_HEIGHT, 'step' => 1 ),
 				),
 				'marker_style'         => array(
 					'type'    => 'select',
-					'label'   => __( 'Marker', 'store-locator-for-openstreetmap' ),
-					'help'    => __( 'The standard pin is an image and cannot be restyled; the dot can be given a colour of your own.', 'store-locator-for-openstreetmap' ),
+					'label'   => __( 'Marker', 'nearspot-store-finder-openstreetmap' ),
+					'help'    => __( 'The standard pin is an image and cannot be restyled; the dot can be given a colour of your own.', 'nearspot-store-finder-openstreetmap' ),
 					'choices' => array(
-						'pin' => __( 'Standard pin', 'store-locator-for-openstreetmap' ),
-						'dot' => __( 'Coloured dot', 'store-locator-for-openstreetmap' ),
+						'pin' => __( 'Standard pin', 'nearspot-store-finder-openstreetmap' ),
+						'dot' => __( 'Coloured dot', 'nearspot-store-finder-openstreetmap' ),
 					),
 				),
 				'marker_colour'        => array(
 					'type'  => 'color',
-					'label' => __( 'Marker colour', 'store-locator-for-openstreetmap' ),
-					'help'  => __( 'Used by the coloured dot, and ignored by the standard pin.', 'store-locator-for-openstreetmap' ),
+					'label' => __( 'Marker colour', 'nearspot-store-finder-openstreetmap' ),
+					'help'  => __( 'Used by the coloured dot, and ignored by the standard pin.', 'nearspot-store-finder-openstreetmap' ),
 					'class' => '',
 				),
 				'cluster'              => array(
 					'type'    => 'select',
-					'label'   => __( 'Grouping', 'store-locator-for-openstreetmap' ),
-					'help'    => __( 'Whether nearby pins collapse into a numbered bubble; on automatic, they do once there are enough of them to overlap.', 'store-locator-for-openstreetmap' ),
+					'label'   => __( 'Grouping', 'nearspot-store-finder-openstreetmap' ),
+					'help'    => __( 'Whether nearby pins collapse into a numbered bubble; on automatic, they do once there are enough of them to overlap.', 'nearspot-store-finder-openstreetmap' ),
 					'choices' => array(
-						'auto' => __( 'Automatic', 'store-locator-for-openstreetmap' ),
-						'yes'  => __( 'Always group', 'store-locator-for-openstreetmap' ),
-						'no'   => __( 'Never group', 'store-locator-for-openstreetmap' ),
+						'auto' => __( 'Automatic', 'nearspot-store-finder-openstreetmap' ),
+						'yes'  => __( 'Always group', 'nearspot-store-finder-openstreetmap' ),
+						'no'   => __( 'Never group', 'nearspot-store-finder-openstreetmap' ),
 					),
 				),
 				'units'                => array(
 					'type'    => 'select',
-					'label'   => __( 'Distance in', 'store-locator-for-openstreetmap' ),
-					'help'    => __( 'The unit distances are measured and shown in.', 'store-locator-for-openstreetmap' ),
+					'label'   => __( 'Distance in', 'nearspot-store-finder-openstreetmap' ),
+					'help'    => __( 'The unit distances are measured and shown in.', 'nearspot-store-finder-openstreetmap' ),
 					'choices' => $units,
 				),
 				'radius_choices'       => array(
 					'type'  => 'numbers',
-					'label' => __( 'Search radii', 'store-locator-for-openstreetmap' ),
-					'help'  => __( 'The distances the "within" menu offers, separated by commas.', 'store-locator-for-openstreetmap' ),
+					'label' => __( 'Search radii', 'nearspot-store-finder-openstreetmap' ),
+					'help'  => __( 'The distances the "within" menu offers, separated by commas.', 'nearspot-store-finder-openstreetmap' ),
 					'class' => 'large-text code',
 				),
 				/*
@@ -1006,127 +1006,127 @@ if ( ! class_exists( __NAMESPACE__ . '\\Settings_Screen' ) ) {
 				 */
 				'default_radius'       => array(
 					'type'       => 'number',
-					'label'      => __( 'Default radius', 'store-locator-for-openstreetmap' ),
-					'help'       => __( 'Which of those distances a visitor starts on.', 'store-locator-for-openstreetmap' ),
+					'label'      => __( 'Default radius', 'nearspot-store-finder-openstreetmap' ),
+					'help'       => __( 'Which of those distances a visitor starts on.', 'nearspot-store-finder-openstreetmap' ),
 					'class'      => 'small-text',
 					'attributes' => array( 'min' => 0, 'max' => (int) Rest_Controller::MAX_RADIUS, 'step' => 'any' ),
 				),
 				'limit_choices'        => array(
 					'type'  => 'numbers',
-					'label' => __( 'Result counts', 'store-locator-for-openstreetmap' ),
-					'help'  => __( 'The counts the "show at most" menu offers, separated by commas.', 'store-locator-for-openstreetmap' ),
+					'label' => __( 'Result counts', 'nearspot-store-finder-openstreetmap' ),
+					'help'  => __( 'The counts the "show at most" menu offers, separated by commas.', 'nearspot-store-finder-openstreetmap' ),
 					'class' => 'large-text code',
 				),
 				'default_limit'        => array(
 					'type'       => 'number',
-					'label'      => __( 'Default result count', 'store-locator-for-openstreetmap' ),
-					'help'       => __( 'Which of those counts a visitor starts on.', 'store-locator-for-openstreetmap' ),
+					'label'      => __( 'Default result count', 'nearspot-store-finder-openstreetmap' ),
+					'help'       => __( 'Which of those counts a visitor starts on.', 'nearspot-store-finder-openstreetmap' ),
 					'class'      => 'small-text',
 					'attributes' => array( 'min' => 1, 'max' => (int) Rest_Controller::MAX_LIMIT, 'step' => 1 ),
 				),
 				'autocomplete'         => array(
 					'type'           => 'checkbox',
-					'label'          => __( 'Address suggestions', 'store-locator-for-openstreetmap' ),
-					'checkbox_label' => __( 'Suggest addresses as a visitor types', 'store-locator-for-openstreetmap' ),
-					'help'           => __( 'Sends each few keystrokes to the suggestion service, so turn it off if you are using a shared public one.', 'store-locator-for-openstreetmap' ),
+					'label'          => __( 'Address suggestions', 'nearspot-store-finder-openstreetmap' ),
+					'checkbox_label' => __( 'Suggest addresses as a visitor types', 'nearspot-store-finder-openstreetmap' ),
+					'help'           => __( 'Sends each few keystrokes to the suggestion service, so turn it off if you are using a shared public one.', 'nearspot-store-finder-openstreetmap' ),
 				),
 				'country'              => array(
-					'label' => __( 'Restrict lookups to', 'store-locator-for-openstreetmap' ),
-					'help'  => __( 'Two-letter country codes, separated by commas — "pl, de" — so a search for "Springfield" cannot land on another continent. Leave empty for the whole world.', 'store-locator-for-openstreetmap' ),
+					'label' => __( 'Restrict lookups to', 'nearspot-store-finder-openstreetmap' ),
+					'help'  => __( 'Two-letter country codes, separated by commas — "pl, de" — so a search for "Springfield" cannot land on another continent. Leave empty for the whole world.', 'nearspot-store-finder-openstreetmap' ),
 					'class' => 'regular-text code',
 				),
 				'near_me'              => array(
 					'type'           => 'checkbox',
-					'label'          => __( 'Use my location', 'store-locator-for-openstreetmap' ),
-					'checkbox_label' => __( 'Offer a button that searches from the visitor’s own position', 'store-locator-for-openstreetmap' ),
-					'help'           => __( 'The browser asks the visitor before anything is read, and nothing is stored.', 'store-locator-for-openstreetmap' ),
+					'label'          => __( 'Use my location', 'nearspot-store-finder-openstreetmap' ),
+					'checkbox_label' => __( 'Offer a button that searches from the visitor’s own position', 'nearspot-store-finder-openstreetmap' ),
+					'help'           => __( 'The browser asks the visitor before anything is read, and nothing is stored.', 'nearspot-store-finder-openstreetmap' ),
 				),
 				'results_position'     => array(
 					'type'    => 'select',
-					'label'   => __( 'List position', 'store-locator-for-openstreetmap' ),
-					'help'    => __( 'Where the list of results sits on a wide screen; on a phone it always goes below the map, because there is no room beside it.', 'store-locator-for-openstreetmap' ),
+					'label'   => __( 'List position', 'nearspot-store-finder-openstreetmap' ),
+					'help'    => __( 'Where the list of results sits on a wide screen; on a phone it always goes below the map, because there is no room beside it.', 'nearspot-store-finder-openstreetmap' ),
 					'choices' => array(
-						'right' => __( 'Right of the map', 'store-locator-for-openstreetmap' ),
-						'left'  => __( 'Left of the map', 'store-locator-for-openstreetmap' ),
-						'below' => __( 'Below the map', 'store-locator-for-openstreetmap' ),
+						'right' => __( 'Right of the map', 'nearspot-store-finder-openstreetmap' ),
+						'left'  => __( 'Left of the map', 'nearspot-store-finder-openstreetmap' ),
+						'below' => __( 'Below the map', 'nearspot-store-finder-openstreetmap' ),
 					),
 				),
 				'result_fields'        => array(
 					'type'    => 'checkboxes',
-					'label'   => __( 'Shown in the list', 'store-locator-for-openstreetmap' ),
-					'help'    => __( 'What each row of results says; tick nothing to go back to all of them.', 'store-locator-for-openstreetmap' ),
+					'label'   => __( 'Shown in the list', 'nearspot-store-finder-openstreetmap' ),
+					'help'    => __( 'What each row of results says; tick nothing to go back to all of them.', 'nearspot-store-finder-openstreetmap' ),
 					'choices' => array(
-						'name'       => __( 'Name', 'store-locator-for-openstreetmap' ),
-						'address'    => __( 'Address', 'store-locator-for-openstreetmap' ),
-						'city'       => __( 'City', 'store-locator-for-openstreetmap' ),
-						'distance'   => __( 'Distance', 'store-locator-for-openstreetmap' ),
-						'categories' => __( 'Categories', 'store-locator-for-openstreetmap' ),
+						'name'       => __( 'Name', 'nearspot-store-finder-openstreetmap' ),
+						'address'    => __( 'Address', 'nearspot-store-finder-openstreetmap' ),
+						'city'       => __( 'City', 'nearspot-store-finder-openstreetmap' ),
+						'distance'   => __( 'Distance', 'nearspot-store-finder-openstreetmap' ),
+						'categories' => __( 'Categories', 'nearspot-store-finder-openstreetmap' ),
 					),
 				),
 				'popup_fields'         => array(
 					'type'    => 'checkboxes',
-					'label'   => __( 'Shown in a pin’s bubble', 'store-locator-for-openstreetmap' ),
-					'help'    => __( 'What a visitor sees when they open a pin — which is also what you are publishing, so a phone number you keep for staff belongs off this list.', 'store-locator-for-openstreetmap' ),
+					'label'   => __( 'Shown in a pin’s bubble', 'nearspot-store-finder-openstreetmap' ),
+					'help'    => __( 'What a visitor sees when they open a pin — which is also what you are publishing, so a phone number you keep for staff belongs off this list.', 'nearspot-store-finder-openstreetmap' ),
 					'choices' => array(
-						'name'        => __( 'Name', 'store-locator-for-openstreetmap' ),
-						'address'     => __( 'Address', 'store-locator-for-openstreetmap' ),
-						'categories'  => __( 'Categories', 'store-locator-for-openstreetmap' ),
-						'phone'       => __( 'Phone', 'store-locator-for-openstreetmap' ),
-						'email'       => __( 'Email', 'store-locator-for-openstreetmap' ),
-						'url'         => __( 'Website', 'store-locator-for-openstreetmap' ),
-						'hours'       => __( 'Opening hours', 'store-locator-for-openstreetmap' ),
-						'description' => __( 'Description', 'store-locator-for-openstreetmap' ),
+						'name'        => __( 'Name', 'nearspot-store-finder-openstreetmap' ),
+						'address'     => __( 'Address', 'nearspot-store-finder-openstreetmap' ),
+						'categories'  => __( 'Categories', 'nearspot-store-finder-openstreetmap' ),
+						'phone'       => __( 'Phone', 'nearspot-store-finder-openstreetmap' ),
+						'email'       => __( 'Email', 'nearspot-store-finder-openstreetmap' ),
+						'url'         => __( 'Website', 'nearspot-store-finder-openstreetmap' ),
+						'hours'       => __( 'Opening hours', 'nearspot-store-finder-openstreetmap' ),
+						'description' => __( 'Description', 'nearspot-store-finder-openstreetmap' ),
 					),
 				),
 				'directions'           => array(
 					'type'    => 'select',
-					'label'   => __( 'Directions link', 'store-locator-for-openstreetmap' ),
-					'help'    => __( 'Where "Directions" takes a visitor; their position is only ever sent when they click it.', 'store-locator-for-openstreetmap' ),
+					'label'   => __( 'Directions link', 'nearspot-store-finder-openstreetmap' ),
+					'help'    => __( 'Where "Directions" takes a visitor; their position is only ever sent when they click it.', 'nearspot-store-finder-openstreetmap' ),
 					'choices' => array(
-						'osm'    => __( 'OpenStreetMap', 'store-locator-for-openstreetmap' ),
-						'google' => __( 'Google Maps', 'store-locator-for-openstreetmap' ),
-						'none'   => __( 'No link', 'store-locator-for-openstreetmap' ),
+						'osm'    => __( 'OpenStreetMap', 'nearspot-store-finder-openstreetmap' ),
+						'google' => __( 'Google Maps', 'nearspot-store-finder-openstreetmap' ),
+						'none'   => __( 'No link', 'nearspot-store-finder-openstreetmap' ),
 					),
 				),
 				'skin'                 => array(
 					'type'           => 'checkbox',
-					'label'          => __( 'Default styles', 'store-locator-for-openstreetmap' ),
-					'checkbox_label' => __( 'Give the search controls the plugin’s own spacing and borders', 'store-locator-for-openstreetmap' ),
-					'help'           => __( 'Untick to style the form yourself. The map, the results list and the markers keep their own stylesheet either way, so turning this off cannot break the map.', 'store-locator-for-openstreetmap' ),
+					'label'          => __( 'Default styles', 'nearspot-store-finder-openstreetmap' ),
+					'checkbox_label' => __( 'Give the search controls the plugin’s own spacing and borders', 'nearspot-store-finder-openstreetmap' ),
+					'help'           => __( 'Untick to style the form yourself. The map, the results list and the markers keep their own stylesheet either way, so turning this off cannot break the map.', 'nearspot-store-finder-openstreetmap' ),
 				),
 				'button_class'         => array(
-					'label' => __( 'Button class', 'store-locator-for-openstreetmap' ),
-					'help'  => __( 'Added to the Search and “Use my location” buttons on every locator, so they can take your theme’s own button styling. On Bricks that is bricks-button. Leave empty for the plugin’s own look; one locator can override this in the shortcode.', 'store-locator-for-openstreetmap' ),
+					'label' => __( 'Button class', 'nearspot-store-finder-openstreetmap' ),
+					'help'  => __( 'Added to the Search and “Use my location” buttons on every locator, so they can take your theme’s own button styling. On Bricks that is bricks-button. Leave empty for the plugin’s own look; one locator can override this in the shortcode.', 'nearspot-store-finder-openstreetmap' ),
 					'class' => 'regular-text code',
 				),
 				'geocode_endpoint'     => array(
 					'type'  => 'url',
-					'label' => __( 'Geocoding endpoint', 'store-locator-for-openstreetmap' ),
-					'help'  => __( 'Your own Nominatim, if you run one; empty means the public instance, which is rate limited and shared.', 'store-locator-for-openstreetmap' ),
+					'label' => __( 'Geocoding endpoint', 'nearspot-store-finder-openstreetmap' ),
+					'help'  => __( 'Your own Nominatim, if you run one; empty means the public instance, which is rate limited and shared.', 'nearspot-store-finder-openstreetmap' ),
 					'class' => 'large-text code',
 				),
 				'suggest_endpoint'     => array(
 					'type'  => 'url',
-					'label' => __( 'Suggestions endpoint', 'store-locator-for-openstreetmap' ),
-					'help'  => __( 'Your own Photon, if you run one; empty means the public instance.', 'store-locator-for-openstreetmap' ),
+					'label' => __( 'Suggestions endpoint', 'nearspot-store-finder-openstreetmap' ),
+					'help'  => __( 'Your own Photon, if you run one; empty means the public instance.', 'nearspot-store-finder-openstreetmap' ),
 					'class' => 'large-text code',
 				),
 				'geocode_user_agent'   => array(
-					'label' => __( 'User-Agent', 'store-locator-for-openstreetmap' ),
-					'help'  => __( 'How this site identifies itself to the geocoding service, which its usage policy asks for; empty sends the plugin name and your site address.', 'store-locator-for-openstreetmap' ),
+					'label' => __( 'User-Agent', 'nearspot-store-finder-openstreetmap' ),
+					'help'  => __( 'How this site identifies itself to the geocoding service, which its usage policy asks for; empty sends the plugin name and your site address.', 'nearspot-store-finder-openstreetmap' ),
 					'class' => 'large-text code',
 				),
 				'geocode_cache_ttl'    => array(
 					'type'       => 'number',
-					'label'      => __( 'Keep addresses for', 'store-locator-for-openstreetmap' ),
-					'help'       => __( 'How long a looked-up address is remembered, in seconds; 0 looks every address up every time, which the public service will block you for.', 'store-locator-for-openstreetmap' ),
+					'label'      => __( 'Keep addresses for', 'nearspot-store-finder-openstreetmap' ),
+					'help'       => __( 'How long a looked-up address is remembered, in seconds; 0 looks every address up every time, which the public service will block you for.', 'nearspot-store-finder-openstreetmap' ),
 					'class'      => 'regular-text',
 					'attributes' => array( 'min' => 0, 'step' => 1 ),
 				),
 				'suggest_cache_ttl'    => array(
 					'type'       => 'number',
-					'label'      => __( 'Keep suggestions for', 'store-locator-for-openstreetmap' ),
-					'help'       => __( 'How long a suggestion list is remembered, in seconds; shorter than addresses because every visitor types something different.', 'store-locator-for-openstreetmap' ),
+					'label'      => __( 'Keep suggestions for', 'nearspot-store-finder-openstreetmap' ),
+					'help'       => __( 'How long a suggestion list is remembered, in seconds; shorter than addresses because every visitor types something different.', 'nearspot-store-finder-openstreetmap' ),
 					'class'      => 'regular-text',
 					'attributes' => array( 'min' => 0, 'step' => 1 ),
 				),
@@ -1144,9 +1144,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Settings_Screen' ) ) {
 				 */
 				'remove_data'          => array(
 					'type'           => 'checkbox',
-					'label'          => __( 'On uninstall', 'store-locator-for-openstreetmap' ),
-					'checkbox_label' => __( 'Delete every location, category and setting when this plugin is deleted', 'store-locator-for-openstreetmap' ),
-					'help'           => __( 'Off by default, because deleting the plugin to try something else should not take the addresses with it.', 'store-locator-for-openstreetmap' ),
+					'label'          => __( 'On uninstall', 'nearspot-store-finder-openstreetmap' ),
+					'checkbox_label' => __( 'Delete every location, category and setting when this plugin is deleted', 'nearspot-store-finder-openstreetmap' ),
+					'help'           => __( 'Off by default, because deleting the plugin to try something else should not take the addresses with it.', 'nearspot-store-finder-openstreetmap' ),
 				),
 			);
 		}

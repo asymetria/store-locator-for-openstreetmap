@@ -4,7 +4,7 @@
  *
  * WHAT THIS FILE IS
  * =================
- * A scan of `store-locator-for-openstreetmap.php`, `uninstall.php`, `admin/*.php`
+ * A scan of `nearspot-store-finder-openstreetmap.php`, `uninstall.php`, `admin/*.php`
  * and `includes/*.php` for the mechanical half of internationalisation — the
  * half a `.pot` generator and Plugin Check can both see, and the half that is
  * invisible in a diff because a wrong call looks exactly like a right one until
@@ -19,8 +19,8 @@
  * THE ONE THING THAT MAKES IT NOT A RESTATEMENT
  * =============================================
  * The expected text domain is **read out of the plugin header**, not typed
- * here. `Text Domain: store-locator-for-openstreetmap` in
- * store-locator-for-openstreetmap.php is the only statement of it in this
+ * here. `Text Domain: nearspot-store-finder-openstreetmap` in
+ * nearspot-store-finder-openstreetmap.php is the only statement of it in this
  * project, and every case below compares against that. A test holding its own
  * copy of the domain would pass a rename of the header and fail nothing — it
  * would assert that the source says what the source says. This one fails a
@@ -88,7 +88,7 @@ if ( ! function_exists( 'slosm_i18n_root' ) ) {
 	/**
 	 * Every PHP file this plugin ships, excluding its own tests.
 	 *
-	 * The root glob picks up store-locator-for-openstreetmap.php and
+	 * The root glob picks up nearspot-store-finder-openstreetmap.php and
 	 * uninstall.php, which is the whole of the root; tests/ is not globbed at
 	 * all. A test file is not shipped and its strings are not translated, so a
 	 * scan that included this directory would be scanning itself.
@@ -129,7 +129,7 @@ if ( ! function_exists( 'slosm_i18n_root' ) ) {
 	 * @return string Absolute path.
 	 */
 	function slosm_i18n_main_file(): string {
-		return slosm_i18n_root() . '/store-locator-for-openstreetmap.php';
+		return slosm_i18n_root() . '/nearspot-store-finder-openstreetmap.php';
 	}
 
 	/**
@@ -460,7 +460,7 @@ describe( 'the plugin header declares the text domain everything else uses', fun
 		// a comparison of nothing with nothing.
 		assert_true(
 			'' !== slosm_i18n_declared_domain(),
-			'store-locator-for-openstreetmap.php has no Text Domain header, so nothing below is checking anything'
+			'nearspot-store-finder-openstreetmap.php has no Text Domain header, so nothing below is checking anything'
 		);
 	} );
 

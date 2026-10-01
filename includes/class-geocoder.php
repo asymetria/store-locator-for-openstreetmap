@@ -374,7 +374,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Geocoder' ) ) {
 			if ( '' === $normalised ) {
 				return new \WP_Error(
 					'slosm_geocode_empty_query',
-					__( 'There is no address to look up.', 'store-locator-for-openstreetmap' )
+					__( 'There is no address to look up.', 'nearspot-store-finder-openstreetmap' )
 				);
 			}
 
@@ -404,7 +404,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Geocoder' ) ) {
 			if ( array() === $decoded ) {
 				return new \WP_Error(
 					'slosm_geocode_no_results',
-					__( 'No place matched that address.', 'store-locator-for-openstreetmap' )
+					__( 'No place matched that address.', 'nearspot-store-finder-openstreetmap' )
 				);
 			}
 
@@ -415,7 +415,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Geocoder' ) ) {
 			if ( ! isset( $decoded[0] ) || ! is_array( $decoded[0] ) ) {
 				return new \WP_Error(
 					'slosm_geocode_bad_json',
-					__( 'The geocoding service sent something this plugin could not read.', 'store-locator-for-openstreetmap' )
+					__( 'The geocoding service sent something this plugin could not read.', 'nearspot-store-finder-openstreetmap' )
 				);
 			}
 
@@ -431,7 +431,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Geocoder' ) ) {
 			if ( null === $lat || null === $lng ) {
 				return new \WP_Error(
 					'slosm_geocode_bad_coordinates',
-					__( 'The geocoding service answered without usable coordinates.', 'store-locator-for-openstreetmap' )
+					__( 'The geocoding service answered without usable coordinates.', 'nearspot-store-finder-openstreetmap' )
 				);
 			}
 
@@ -480,7 +480,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Geocoder' ) ) {
 			if ( '' === $normalised ) {
 				return new \WP_Error(
 					'slosm_suggest_empty_query',
-					__( 'There is nothing to suggest for an empty search.', 'store-locator-for-openstreetmap' )
+					__( 'There is nothing to suggest for an empty search.', 'nearspot-store-finder-openstreetmap' )
 				);
 			}
 
@@ -519,7 +519,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Geocoder' ) ) {
 			if ( ! isset( $decoded['features'] ) || ! is_array( $decoded['features'] ) ) {
 				return new \WP_Error(
 					'slosm_suggest_bad_json',
-					__( 'The suggestion service sent something this plugin could not read.', 'store-locator-for-openstreetmap' )
+					__( 'The suggestion service sent something this plugin could not read.', 'nearspot-store-finder-openstreetmap' )
 				);
 			}
 
@@ -536,7 +536,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Geocoder' ) ) {
 			if ( array() === $suggestions ) {
 				return new \WP_Error(
 					'slosm_suggest_no_results',
-					__( 'Nothing matched that search.', 'store-locator-for-openstreetmap' )
+					__( 'Nothing matched that search.', 'nearspot-store-finder-openstreetmap' )
 				);
 			}
 
@@ -651,7 +651,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Geocoder' ) ) {
 			if ( is_wp_error( $response ) ) {
 				return new \WP_Error(
 					$code_prefix . '_http',
-					__( 'Could not reach the geocoding service.', 'store-locator-for-openstreetmap' ),
+					__( 'Could not reach the geocoding service.', 'nearspot-store-finder-openstreetmap' ),
 					array(
 						'upstream_code'    => $response->get_error_code(),
 						'upstream_message' => $response->get_error_message(),
@@ -664,7 +664,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Geocoder' ) ) {
 			if ( 429 === $status ) {
 				return new \WP_Error(
 					$code_prefix . '_rate_limited',
-					__( 'The geocoding service is asking for fewer requests. Try again in a moment.', 'store-locator-for-openstreetmap' ),
+					__( 'The geocoding service is asking for fewer requests. Try again in a moment.', 'nearspot-store-finder-openstreetmap' ),
 					array( 'upstream_status' => $status )
 				);
 			}
@@ -672,7 +672,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Geocoder' ) ) {
 			if ( 200 !== $status ) {
 				return new \WP_Error(
 					$code_prefix . '_bad_status',
-					__( 'The geocoding service answered with an error.', 'store-locator-for-openstreetmap' ),
+					__( 'The geocoding service answered with an error.', 'nearspot-store-finder-openstreetmap' ),
 					array( 'upstream_status' => $status )
 				);
 			}
@@ -685,7 +685,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Geocoder' ) ) {
 			if ( ! is_array( $decoded ) ) {
 				return new \WP_Error(
 					$code_prefix . '_bad_json',
-					__( 'The geocoding service sent something this plugin could not read.', 'store-locator-for-openstreetmap' ),
+					__( 'The geocoding service sent something this plugin could not read.', 'nearspot-store-finder-openstreetmap' ),
 					array( 'upstream_status' => $status )
 				);
 			}
@@ -1170,7 +1170,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Geocoder' ) ) {
 		 * @return string
 		 */
 		private function default_user_agent(): string {
-			$agent = 'Store Locator for OpenStreetMap/' . ( defined( 'SLOSM_VERSION' ) ? (string) SLOSM_VERSION : 'unknown' );
+			$agent = 'Nearspot Store Finder for OpenStreetMap/' . ( defined( 'SLOSM_VERSION' ) ? (string) SLOSM_VERSION : 'unknown' );
 			$home  = function_exists( 'home_url' ) ? trim( (string) home_url() ) : '';
 
 			return '' === $home ? $agent : $agent . ' (+' . $home . ')';

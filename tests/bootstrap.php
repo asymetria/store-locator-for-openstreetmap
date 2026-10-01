@@ -238,7 +238,7 @@ if ( ! defined( 'SLOSM_VERSION' ) ) {
 	define( 'SLOSM_VERSION', '9.9.9-stub' );
 }
 if ( ! defined( 'SLOSM_URL' ) ) {
-	define( 'SLOSM_URL', 'https://example.test/wp-content/plugins/store-locator-for-openstreetmap/' );
+	define( 'SLOSM_URL', 'https://example.test/wp-content/plugins/nearspot-store-finder-openstreetmap/' );
 }
 /*
  * The real plugin root, and the one of the three that is not a stub value.

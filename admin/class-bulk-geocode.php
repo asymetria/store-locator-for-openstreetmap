@@ -566,7 +566,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Bulk_Geocode' ) ) {
 				return $actions;
 			}
 
-			$actions[ self::ACTION ] = esc_html( __( 'Look up coordinates from the location\'s address', 'store-locator-for-openstreetmap' ) );
+			$actions[ self::ACTION ] = esc_html( __( 'Look up coordinates from the location\'s address', 'nearspot-store-finder-openstreetmap' ) );
 
 			return $actions;
 		}
@@ -974,7 +974,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Bulk_Geocode' ) ) {
 			if ( is_wp_error( $point ) ) {
 				$message = sprintf(
 					/* translators: %s: why the lookup failed. */
-					__( 'The address could not be looked up: %s', 'store-locator-for-openstreetmap' ),
+					__( 'The address could not be looked up: %s', 'nearspot-store-finder-openstreetmap' ),
 					$point->get_error_message()
 				);
 
@@ -1251,7 +1251,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Bulk_Geocode' ) ) {
 
 				if ( '' === $name ) {
 					/* translators: %d: post id of a location with no title. */
-					echo esc_html( sprintf( __( 'Location #%d', 'store-locator-for-openstreetmap' ), $id ) );
+					echo esc_html( sprintf( __( 'Location #%d', 'nearspot-store-finder-openstreetmap' ), $id ) );
 				} else {
 					echo '<a href="' . esc_url( self::edit_url( $id ) ) . '">' . esc_html( $name ) . '</a>';
 				}
@@ -1285,47 +1285,47 @@ if ( ! class_exists( __NAMESPACE__ . '\\Bulk_Geocode' ) ) {
 			switch ( $outcome ) {
 				case self::GEOCODED:
 					/* translators: %d: number of locations. */
-					return sprintf( _n( '%d location was put on the map:', '%d locations were put on the map:', $count, 'store-locator-for-openstreetmap' ), $count );
+					return sprintf( _n( '%d location was put on the map:', '%d locations were put on the map:', $count, 'nearspot-store-finder-openstreetmap' ), $count );
 
 				case self::PLACED:
 					/* translators: %d: number of locations. */
-					return sprintf( _n( '%d location was already on the map, so it was left alone:', '%d locations were already on the map, so they were left alone:', $count, 'store-locator-for-openstreetmap' ), $count );
+					return sprintf( _n( '%d location was already on the map, so it was left alone:', '%d locations were already on the map, so they were left alone:', $count, 'nearspot-store-finder-openstreetmap' ), $count );
 
 				case self::LOCKED:
 					/* translators: %d: number of locations. */
-					return sprintf( _n( '%d location has coordinates placed by hand and was not changed. Clear the coordinates on its edit screen to look them up again:', '%d locations have coordinates placed by hand and were not changed. Clear the coordinates on their edit screens to look them up again:', $count, 'store-locator-for-openstreetmap' ), $count );
+					return sprintf( _n( '%d location has coordinates placed by hand and was not changed. Clear the coordinates on its edit screen to look them up again:', '%d locations have coordinates placed by hand and were not changed. Clear the coordinates on their edit screens to look them up again:', $count, 'nearspot-store-finder-openstreetmap' ), $count );
 
 				case self::NO_ADDRESS:
 					/* translators: %d: number of locations. */
-					return sprintf( _n( '%d location has no address to look up, so it is still not on the map:', '%d locations have no address to look up, so they are still not on the map:', $count, 'store-locator-for-openstreetmap' ), $count );
+					return sprintf( _n( '%d location has no address to look up, so it is still not on the map:', '%d locations have no address to look up, so they are still not on the map:', $count, 'nearspot-store-finder-openstreetmap' ), $count );
 
 				case self::NO_MATCH:
 					/* translators: %d: number of locations. */
-					return sprintf( _n( 'The geocoding service knew of no such place for %d location. Check its address:', 'The geocoding service knew of no such place for %d locations. Check their addresses:', $count, 'store-locator-for-openstreetmap' ), $count );
+					return sprintf( _n( 'The geocoding service knew of no such place for %d location. Check its address:', 'The geocoding service knew of no such place for %d locations. Check their addresses:', $count, 'nearspot-store-finder-openstreetmap' ), $count );
 
 				case self::SERVICE_FAILED:
 					/* translators: %d: number of locations. */
-					return sprintf( _n( 'The geocoding service could not answer for %d location. The address is probably fine; try again later:', 'The geocoding service could not answer for %d locations. The addresses are probably fine; try again later:', $count, 'store-locator-for-openstreetmap' ), $count );
+					return sprintf( _n( 'The geocoding service could not answer for %d location. The address is probably fine; try again later:', 'The geocoding service could not answer for %d locations. The addresses are probably fine; try again later:', $count, 'nearspot-store-finder-openstreetmap' ), $count );
 
 				case self::REMEMBERED:
 					/* translators: %d: number of locations. */
-					return sprintf( _n( '%d location failed a lookup recently and was not asked about again:', '%d locations failed a lookup recently and were not asked about again:', $count, 'store-locator-for-openstreetmap' ), $count );
+					return sprintf( _n( '%d location failed a lookup recently and was not asked about again:', '%d locations failed a lookup recently and were not asked about again:', $count, 'nearspot-store-finder-openstreetmap' ), $count );
 
 				case self::DEFERRED:
 					/* translators: %d: number of locations. */
-					return sprintf( _n( '%d location was not attempted, to keep this request inside the time the server allows. Select it again and press Apply to carry on:', '%d locations were not attempted, to keep this request inside the time the server allows. Select them again and press Apply to carry on:', $count, 'store-locator-for-openstreetmap' ), $count );
+					return sprintf( _n( '%d location was not attempted, to keep this request inside the time the server allows. Select it again and press Apply to carry on:', '%d locations were not attempted, to keep this request inside the time the server allows. Select them again and press Apply to carry on:', $count, 'nearspot-store-finder-openstreetmap' ), $count );
 
 				case self::DENIED:
 					/* translators: %d: number of locations. */
-					return sprintf( _n( '%d location was skipped because you are not allowed to edit it:', '%d locations were skipped because you are not allowed to edit them:', $count, 'store-locator-for-openstreetmap' ), $count );
+					return sprintf( _n( '%d location was skipped because you are not allowed to edit it:', '%d locations were skipped because you are not allowed to edit them:', $count, 'nearspot-store-finder-openstreetmap' ), $count );
 
 				case self::MISSING:
 					/* translators: %d: number of locations. */
-					return sprintf( _n( '%d selected item is not a location:', '%d selected items are not locations:', $count, 'store-locator-for-openstreetmap' ), $count );
+					return sprintf( _n( '%d selected item is not a location:', '%d selected items are not locations:', $count, 'nearspot-store-finder-openstreetmap' ), $count );
 			}
 
 			/* translators: %d: number of locations. */
-			return sprintf( _n( '%d location:', '%d locations:', $count, 'store-locator-for-openstreetmap' ), $count );
+			return sprintf( _n( '%d location:', '%d locations:', $count, 'nearspot-store-finder-openstreetmap' ), $count );
 		}
 
 		/**

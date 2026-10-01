@@ -1,15 +1,15 @@
 <?php
 /**
- * Plugin Name:       Store Locator for OpenStreetMap
+ * Plugin Name:       Nearspot Store Finder for OpenStreetMap
  * Description:       A store locator built on Leaflet and OpenStreetMap. No Google Maps API key, no billing account, no third-party map cookies.
- * Version:           1.0.1
+ * Version:           1.0.2
  * Requires at least: 6.0
  * Requires PHP:      8.0
  * Author:            Asymetria
  * Author URI:        https://asymetria.com.pl
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       store-locator-for-openstreetmap
+ * Text Domain:       nearspot-store-finder-openstreetmap
  *
  * Every declaration below is guarded — defined() for constants, class_exists()
  * for classes, function_exists() for functions — and that is not belt and
@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! defined( 'SLOSM_VERSION' ) ) {
-	define( 'SLOSM_VERSION', '1.0.1' );
+	define( 'SLOSM_VERSION', '1.0.2' );
 	define( 'SLOSM_FILE', __FILE__ );
 	define( 'SLOSM_DIR', plugin_dir_path( __FILE__ ) );
 	define( 'SLOSM_URL', plugin_dir_url( __FILE__ ) );
